@@ -7,7 +7,7 @@ from openpyxl.utils import get_column_letter
 import re
 from openpyxl.worksheet.pagebreak import Break, RowBreak, ColBreak
 
-API_KEY = 'AIzaSyCO7QtNysEUq5IwP8Q0myPVZwOi0U8cd8M'
+API_KEY = 'AIzaSyDici32WqdcLFcANGcMYviev4C95--9IBs'
 if not API_KEY:
     raise ValueError("❌ Google API 키가 설정되지 않았습니다. 환경 변수 GOOGLE_API_KEY를 설정하세요.")
 
@@ -122,7 +122,7 @@ def analyze_and_set_print_area(file_path, sheet_names, model_name):
     return output_filename
 
 # 사용 예시 (여러 시트 처리 가능)
-file_path = "data/졸업이수학점정리.xlsx"
+file_path = "data/부서별_성과_보고서.xlsx"
 sheet_names_input = input("처리할 시트명을 쉼표로 구분하여 입력하세요: ")
 sheet_names = [name.strip() for name in sheet_names_input.split(",")]
 model_name = "models/gemini-2.0-pro-exp"  # 여기에 사용할 Gemini AI 모델명을 지정하세요.
