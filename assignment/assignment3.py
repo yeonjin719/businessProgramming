@@ -1,44 +1,22 @@
-student = {
-  '홍길동': {
-    '출석': 70,
-    '과제': 80,
-    '중간': 100,
-    '기말': 50
-  },
-  '김길동': {
-    '출석': 85,
-    '과제': 90,
-    '중간': 80,
-    '기말': 80
-  },
-  '이길동': {
-    '출석': 100,
-    '과제': 60,
-    '중간': 65,
-    '기말': 75
-  },
-  '박길동': {
-    '출석': 100,
-    '과제': 75,
-    '중간': 30,
-    '기말': 55
-  },
-  '고길동': {
-    '출석': 90,
-    '과제': 80,
-    '중간': 100,
-    '기말': 100
-  }
-}
+hong = [70, 80, 100, 50]
+kim = [85, 90, 80, 80]
+lee = [100, 60, 65, 75]
+park = [100, 75, 30, 55]
+ko = [90, 80, 100, 100]
 
-def calculate(a,b,c,d):
-  return (a*0.1) + (b*0.3) + (c*0.1) + (d*0.5)
+total_score = [hong, kim, lee, park, ko]
+score_info = ['출석', '과제', '중간', '기말']
+student = ['홍길동', '김길동', '이길동', '박길동', '고길동']
 
-for i in student:
-    print(i,'학생의 점수')
-    print('    출석:',student[i]['출석'])
-    print('    과제:',student[i]['과제'])
-    print('    중간:',student[i]['중간'])
-    print('    기말:',student[i]['기말'])
-    totalScore = calculate(student[i]['출석'], student[i]['과제'],student[i]['중간'],student[i]['기말'])
+def calculate(scores):
+  return (scores[0]*0.1) + (scores[1]*0.3) + (scores[2]*0.1) + (scores[3]*0.5)
+
+def printScore(totalStudent):
+  for i in range(len(totalStudent)): 
+    print(student[i],'학생의 점수')
+    totalScore = calculate(totalStudent[i])
+    for j in range(4):
+      print(score_info[j], total_score[i][j])
     print('최종 점수:', totalScore, end='\n\n')
+    
+printScore(total_score)
