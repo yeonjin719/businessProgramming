@@ -20,3 +20,11 @@ def printScore(totalStudent):
     print('최종 점수:', totalScore, end='\n\n')
     
 printScore(total_score)
+
+
+print(student[0], '학생의 점수')
+print(score_info[0], total_score[0][0])
+print(score_info[1], total_score[0][1])
+print(score_info[2], total_score[0][2])
+print(score_info[3], total_score[0][3])
+print('최종 점수:', calculate(total_score[0]))      

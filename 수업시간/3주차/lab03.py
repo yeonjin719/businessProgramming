@@ -1,0 +1,11 @@
+print('5개의 정수를 입력해주세요')
+a = int(input('첫번째 정수를 입력해주세요: '))
+b = int(input('두번째 정수를 입력해주세요: '))
+c = int(input('세번째 정수를 입력해주세요: '))
+d = int(input('네번째 정수를 입력해주세요: '))
+e = int(input('다섯번째 정수를 입력해주세요: '))
+# a,b,c,d,e = map(int, input().split())
+nums = [a, b, c, d, e]
+print('최댓값', max(nums))
+print('최솟값', min(nums))
+print('평균', sum(nums)/5)
