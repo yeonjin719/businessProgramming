@@ -11,12 +11,10 @@ student = ['홍길동', '김길동', '이길동', '박길동', '고길동']
 def calculate(scores):
   return (scores[0]*0.1) + (scores[1]*0.3) + (scores[2]*0.1) + (scores[3]*0.5)
 
-def printScore(totalStudent):
-  for i in range(len(totalStudent)): 
-    print(student[i],'학생의 점수')
-    totalScore = calculate(totalStudent[i])
-    for j in range(4):
-      print(score_info[j], total_score[i][j])
-    print('최종 점수:', totalScore, end='\n\n')
+for i in range(len(student)): 
+  print(student[i],'학생의 점수')
+  totalScore = calculate(total_score[i])
+  for j in range(4):
+    print(score_info[j], total_score[i][j])
+  print('최종 점수:', totalScore, end='\n\n')
     
-printScore(total_score)
