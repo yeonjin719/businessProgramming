@@ -22,7 +22,7 @@ def pringOriginalScore(index):
     for j in range(len(total_score[index])):
         print(score_info[j]+":", total_score[index][j])
 
-def printWeightedScores(index):
+def printWeightedScore(index):
     print('==================================================')
     print(student[index], '학생의 가중 점수')
     for i in range(len(total_score[index])):
