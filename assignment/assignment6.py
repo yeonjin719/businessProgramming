@@ -1,16 +1,22 @@
 import random
 
 def get_random_number():
+  numList = []
   while True:
-    num = random.randrange(100, 1000)
-    if len(set(str(num))) == 3: 
-      return num
-
+    num = random.randrange(1, 9)
+    if (num not in numList):
+      numList.append(num)
+    if (len(numList) == 3):
+      break
+  return numList[0]*100+numList[1]*10+numList[2]
+    
 def explain():
   print('Baseball Game: balls & strikes')
   print('입력하신 숫자와 정답 숫자 배열이 숫자와 자리가 모두 일치하면 strike')
   print('숫자는 일치하지만 자리가 다르면 ball로 표현됩니다')
   print('정답과 입력하신 숫자가 일치할 때까지 게임이 지속됩니다.')
+  print('숫자는 1에서 9 사이 숫자로만 이루어져있습니다')
+  
 
 def errorMessage(errorMessage):
     print()      
@@ -75,6 +81,7 @@ def play(randomNum):
       print()
       print('========================================')
       print()
+
 num = get_random_number()
 print(num)
 play(num)
