@@ -15,7 +15,6 @@ def findWord(targetWord, lines):
   for i in linesList:
     line_word_list = i.split(' ')
     for j in line_word_list:
-
       if targetWord == j:
         wordCount += 1
   return wordCount
@@ -29,6 +28,6 @@ while True:
   letitgo_lyric = letitgo_lyric+line.strip() + '\n'
 f.close()
 
-target = input('찾고자하는 문자를 입력해주세요')
+target = input('찾고자하는 문자를 입력해주세요: ')
 print('문자 기준 개수:', findString(target, letitgo_lyric))
 print('단어 기준 개수:', findWord(target, letitgo_lyric))
