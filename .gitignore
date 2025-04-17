@@ -5,3 +5,7 @@
 .vscode/*
 !.vscode/extensions.json
 .DS_Store
+userData
+Local State
+Variations
+.env

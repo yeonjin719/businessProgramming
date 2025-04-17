@@ -1,4 +1,4 @@
-f = open('수업시간/6주차/Let_it_go.txt', 'r', encoding='utf-8') 
+f = open('Let_it_go.txt', 'r', encoding='utf-8') 
 letitgo_lyric = ''  
 
 def findString(targetWord, lines):
