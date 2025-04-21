@@ -1,22 +1,13 @@
-from importlib.abc import ResourceLoader
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 import re
-import selenium
-import requests
-import copy
 import time
 import ast
 from selenium.webdriver.chrome.options import Options
 import os
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-import json
 import google.generativeai as genai
-import pandas as pd
-from openpyxl import load_workbook
-from openpyxl.utils import get_column_letter
-from openpyxl.worksheet.pagebreak import Break, RowBreak, ColBreak
 from dotenv import load_dotenv
 
 options = Options()
@@ -246,7 +237,7 @@ def moveToPrepareToSendEmail(id, content):
   url = 'https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox/'+id
   driver.get(url)
   time.sleep(5)
-  button = driver.find_element(By.ID, ':1l')
+  button = driver.find_element(By.CLASS_NAME, 'bkH')
   driver.execute_script("arguments[0].click();", button)
   body = WebDriverWait(driver, 10).until(
     EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label="메일 본문"][contenteditable="true"]'))
