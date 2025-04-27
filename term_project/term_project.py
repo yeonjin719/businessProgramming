@@ -226,7 +226,6 @@ def replyAnswerGenerate(emails):
                   print('정확한 번호를 입력해주세요')
               else:
                   print(f'{targetIndex}번 답변으로 메일을 작성하러 이동합니다.')
-                  print(int(index)-1, response_list[targetIndex - 1])
                   return int(index)-1, response_list[targetIndex - 1]
 
                       
@@ -268,7 +267,7 @@ if (len(rows) != 0):
     summary = v[2]
     print('★'*(score)+'☆'*(10-score), '['+k+']', summary, end='\n\n')
   while True:
-    quit = input('종료 를 입력하면 프로그램이 종료됩니다: ')
+    quit = input('종료 를 입력하면 프로그램이 종료됩니다 그 외 아무키나 누르면 AI를 이용한 답변을 생성해드립니다: ')
     if quit == '종료':
       print('프로그램을 완전히 종료합니다')
       break
