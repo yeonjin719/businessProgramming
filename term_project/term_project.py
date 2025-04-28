@@ -10,8 +10,10 @@ from selenium.webdriver.support.ui import WebDriverWait
 import google.generativeai as genai
 from dotenv import load_dotenv
 
+# 구글 드라이브 옵션 설정
 options = Options()
 options.add_argument('user-data-dir=./term_project/userData')
+options.add_argument("--incognito") 
 options.add_argument('--disable-blink-features=AutomationControlled')
 options.add_experimental_option('detach', True)
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
@@ -99,26 +101,49 @@ replyPropmt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(histor
     }
 ])
 
-def Login(email, password):
-  driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(email)
+def Login():
+  driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(USER_EMAIL)
   driver.find_element(By.XPATH, '//*[@id="identifierNext"]/div/button').click()
-  time.sleep(5)
-  driver.find_element(By.XPATH,'//*[@id="password"]/div[1]/div/div[1]/input').send_keys(password)
-  driver.find_element(By.XPATH,'//*[@id="passwordNext"]/div/button').click()
+  time.sleep(2)
+  try:
+    driver.find_element(By.XPATH,'//*[@id="password"]/div[1]/div/div[1]/input').send_keys(USER_PASSWORD)
+    driver.find_element(By.XPATH,'//*[@id="passwordNext"]/div/button').click()
+    time.sleep(2)
+  
+  except:
+      current_url = driver.current_url
+      id = re.search(r'pwd?TL=([^&]+)', current_url).group(1)
+      time.sleep(2)
+      driver.get(f'https://accounts.google.com/v3/signin/challenge/selection?TL={id}&checkConnection=youtube%3A264&checkedDomains=youtube&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&dsh=S-1862105550%3A1744683838397882&emr=1&flowEntry=ServiceLogin&flowName=GlifWebSignIn&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&lid=1&osid=1&pstMsg=1&service=mail')
+      time.sleep(2)
+      element = driver.find_element(By.XPATH, '//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div/div/form/span/section[2]/div/div/section/div/div/div/ul/li[2]/div')
 
-def isFirst():
-  if not os.path.isdir('term_project/userData'):
-      email = os.getenv('GMAIL_EMAIL')
-      password = os.getenv('GMAIL_PASSWORD')
-      Login(email, password)
+    # Javascript로 클릭 실행
+      driver.execute_script("arguments[0].click();", element)
+      time.sleep(3)
+      driver.find_element(By.XPATH,'//*[@id="password"]/div[1]/div/div[1]/input').send_keys(USER_PASSWORD)
+      driver.find_element(By.XPATH,'//*[@id="passwordNext"]/div/button').click()
+      time.sleep(2)
+  
+def firstLogin():
+  print('최초 로그인의 경우 개인의 보안설정으로 인하여 패스키 인증 등을 요구할 수 있습니다. 이 경우, 수동으로 패스키 인증을 진행해야 합니다.\n\n')
+  Login()
+  time.sleep(5)
 
 def findUnread():
-  driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
-  time.sleep(5)
-  target = driver.find_element(By.CLASS_NAME, 'bv9')
-  table = target.find_element(By.CLASS_NAME, 'Cp')
-  rows = table.find_elements(By.TAG_NAME , 'tr')
-  return rows
+  try:
+    driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
+    time.sleep(5)
+    target = driver.find_element(By.CLASS_NAME, 'bv9')
+    table = target.find_element(By.CLASS_NAME, 'Cp')
+    rows = table.find_elements(By.TAG_NAME , 'tr')
+    return rows
+  except:
+    print('로그인 과정 중에 오류가 발생하였습니다.')
+    print('주로 처음 로그인을 하거나, 이전에 해당 프로그램을 실행하였으나 최초 로그인이 진행되지 않은 경우 발생합니다.')
+    print('로그인을 다시 시도합니다.')
+    driver.get('https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1862105550%3A1744683838397882#inbox')
+    firstLogin()
 
 def getEmailsId():
   url = driver.current_url  # 현재 URL 가져옴
@@ -127,7 +152,6 @@ def getEmailsId():
   if match:
       message_id = match.group(1)
   return message_id
-      
 
 def analysisWithAI(id, title, name, email, content, index):
   # responses = {}
@@ -145,9 +169,6 @@ def analysisWithAI(id, title, name, email, content, index):
   return key.strip(), value
 
 def getEmails(rows):
-  if (len(rows) == 0):
-    print('새로운 메일이 없습니다')
-    return
   emails = {}
   for i in range(len(rows)):
     element = rows[i].find_element(By.CLASS_NAME, 'xS')
@@ -183,8 +204,7 @@ def replyAnswerGenerate(emails):
         index = input("AI를 이용하여 답장 초안을 작성하고 싶은 메일이 있다면, 메일의 번호를 입력해주세요 (숫자가 아닌 문자를 입력하면 종료됩니다.): ")
         if not index.isdigit():
             print('프로그램을 종료합니다.')
-            return -1 -1
-
+            return -1, -1
         try:
             selectedEmail = emails[int(index) - 1]
             while True:
@@ -244,21 +264,40 @@ def moveToPrepareToSendEmail(id, content):
   body.click()
   body.send_keys(content)
   
+isfirst = True
+if os.path.isdir('/userData'):
+  isfirst = False
+
+USER_EMAIL = os.getenv('GMAIL_EMAIL')
+USER_PASSWORD = os.getenv('GMAIL_PASSWORD')
 API_KEY = os.getenv('API_KEY')
-if not API_KEY:
-    raise ValueError("❌ Google API 키가 설정되지 않았습니다. 환경 변수 GOOGLE_API_KEY를 설정하세요.")
+
+if (USER_EMAIL == None):
+  print("❌ 이메일이 설정되지 않았습니다. 환경 변수 GMAIL_EMAIL를 설정하세요.")
+  exit()
+
+if (USER_PASSWORD == None):
+  print("❌ 비밀번호가 설정되지 않았습니다. 환경 변수 GMAIL_PASSWORD를 설정하세요.")
+  exit()
+  
+
+if (API_KEY == None):
+  print("❌ Google API 키가 설정되지 않았습니다. 환경 변수 GOOGLE_API_KEY를 설정하세요.")
+  exit()
+    
+
 genai.configure(api_key=API_KEY)
 
 driver = webdriver.Chrome(options=options)
 driver.maximize_window()
 driver.get('https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1862105550%3A1744683838397882#inbox')
 
-available_models = [m.name for m in genai.list_models()]
-# print("✅ 사용 가능한 모델 목록:", available_models)
-
 data = {}
-isFirst()
+if (isfirst):
+  firstLogin()
+
 rows = findUnread()
+
 if (len(rows) != 0):
   emails = getEmails(rows)
   sortedData = dict(sorted(data.items(), key=lambda x: int(x[1][1]), reverse=True))
@@ -270,7 +309,17 @@ if (len(rows) != 0):
     quit = input('종료 를 입력하면 프로그램이 종료됩니다 그 외 아무키나 누르면 AI를 이용한 답변을 생성해드립니다: ')
     if quit == '종료':
       print('프로그램을 완전히 종료합니다')
+      driver
       break
-    index, answer = replyAnswerGenerate(emails)
-    if (answer != -1 and index != -1):
-      moveToPrepareToSendEmail(sortedData[str(index+1)][0], answer)
+    else:
+      index, answer = replyAnswerGenerate(emails)
+      if (answer != -1 and index != -1):
+        moveToPrepareToSendEmail(sortedData[str(index+1)][0], answer)
+      else:
+        print('답변을 생성하지 않고 프로그램을 종료합니다.')
+        driver.quit()
+        break
+else:
+  print('새로운 메일이 없습니다')
+  driver.quit()
+  exit()
