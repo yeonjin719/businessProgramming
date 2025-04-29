@@ -118,7 +118,6 @@ def Login():
       time.sleep(2)
       element = driver.find_element(By.XPATH, '//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div/div/form/span/section[2]/div/div/section/div/div/div/ul/li[2]/div')
 
-    # Javascript로 클릭 실행
       driver.execute_script("arguments[0].click();", element)
       time.sleep(3)
       driver.find_element(By.XPATH,'//*[@id="password"]/div[1]/div/div[1]/input').send_keys(USER_PASSWORD)
