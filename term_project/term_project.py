@@ -19,86 +19,19 @@ options.add_experimental_option('detach', True)
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
 load_dotenv()
 
-ratingAndSummaryPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
-    {
-        "role": "user",
-        "parts": ["""
-        파이썬 딕셔너리 형태로 너에게 이메일 정보를 줄거야
-        index: [id, title, email, name, content] 의 구조를 가지고 있어.
-        
-        title과 content를 기준으로 중요도를 판단해서 0~10 사이의 점수를 매기고, content를 기반으로 메일을 한 줄로 요약해줘
-        광고 메일에 대해서는 점수를 낮게 주기를 원해.
-        사용자는 직장인으로 업무와 관련성이 높거나, 보안문제, 결제 내역 등의 내용이 담긴 메일을 특히 높게 점수를 주고싶어
-        결과는 다음 형식으로만 간단히 리턴해줘.
-        출력 예시:
-        1: ['<id>', '8', '메일 내용 요약']
-        2: ['<id>', '3', '메일 내용 요약']
+def load_prompt(filename):
+    with open(filename, 'r', encoding='utf-8') as file:
+        return file.read()
 
-        ❗ 절대 코드로 응답하지 말고, 결과만 줘.
-        입력예시:
-          1: ['FMfcgzQZVJzzFxftkpHjDCTQKRkKzKdC', 'Slack의 매화 [매주 화요일마다 회고]: 새 계정 세부정보','Slack','<no-reply134@slack.com>','Slack에 오신 것을 환영합니다.
-              완료되었습니다! 고객님은 처음으로 Slack 워크스페이스에 참여했습니다. 이보다 더 기쁠 수가 없네요. 시작할 때 도움이 되는 몇 가지 팁과 함께 계정 세부 정보가 제공됩니다.
-              매화 [매주 화요일마다 회고]
-              everytuesdayremind.slack.com 	
-              빠르게 둘러보기
-              Slack의 기본 사항에 익숙해지면 즉시 작업을 시작할 수 있습니다.
-              채널에서 작업 시작하기
-              프로젝트, 주제 또는 팀과 관련된 모든 것을 위한 체계화된 공간인 채널에서 대화가 구성됩니다.
-              Slack 다운로드
-              Slack을 완벽하게 활용하려면 데스크톱 및 모바일용 앱을 다운로드하세요.']
-      
-        출력 예시(인덱스: [id, 점수]):
-        1: ['FMfcgzQZVJzzFxftkpHjDCTQKRkKzKdC','8', 'Slack 워크스페이스 ‘매화 [매주 화요일마다 회고]’에 성공적으로 가입되었으며, 시작을 돕기 위한 안내와 앱 다운로드 링크가 포함된 환영 메일입니다.']
-        """]
-    }
+rating_prompt = load_prompt('term_project/ratingPrompt.txt')
+reply_prompt = load_prompt('term_project/replyPrompt.txt')
+
+ratingAndSummaryPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
+    {"role": "user", "parts": [rating_prompt]}
 ])
 
-replyPropmt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
-    {
-        "role": "user",
-        "parts": ["""
-        파이썬 딕셔너리 형태로 너에게 이메일 정보를 줄거야.
-        해당 이메일 정보는 내가 "받은" 이메일이야.
-        해당 이메일에 어떻게 답장을 하면 좋을 지 답변을 너는 작성해줄거야.
-        
-        index: [id, title, email, name, content, 감정] 의 구조를 가지고 있어.
-        ❗감정에는 항상 긍정, 부정이라는 값만 들어와.
-        
-        입력한 정보를 바탕으로 사용자가 입력한 감정에 맞추어 메일 답변을 작성해줘
-        만약 사용자가 긍정이라는 감정을 입력하면 해당 메일에 긍정적인 답변을 작성해주고, 부정이라는 감정을 입력하면 부정적인 답변을 작성해줘.
-        메일을 작성 할 때에는 한글로 작성하고, 정중한 어체를 사용해줘.
-        답장을 세가지 작성해주고 하나의 답변을 작은 따옴표로 묶고, 답변끼리는 쉼표(,)로 구분해서 줘.
-
-        ❗ 절대 코드로 응답하지 말고, 결과만 줘.
-        입력예시:
-          1: ['FMfcgzQZVJzzFxftkpHjDCTQKRkKzKdC', 'Slack의 매화 [매주 화요일마다 회고]: 새 계정 세부정보','Slack','<no-reply134@slack.com>','Slack에 오신 것을 환영합니다.
-              완료되었습니다! 고객님은 처음으로 Slack 워크스페이스에 참여했습니다. 이보다 더 기쁠 수가 없네요. 시작할 때 도움이 되는 몇 가지 팁과 함께 계정 세부 정보가 제공됩니다.
-              매화 [매주 화요일마다 회고]
-              everytuesdayremind.slack.com 	
-              빠르게 둘러보기
-              Slack의 기본 사항에 익숙해지면 즉시 작업을 시작할 수 있습니다.
-              채널에서 작업 시작하기
-              프로젝트, 주제 또는 팀과 관련된 모든 것을 위한 체계화된 공간인 채널에서 대화가 구성됩니다.
-              Slack 다운로드
-              Slack을 완벽하게 활용하려면 데스크톱 및 모바일용 앱을 다운로드하세요.', 긍정]
-      
-        출력 예시:
-          '안녕하세요,
-            Slack 워크스페이스 초대 및 계정 세부 정보 공유 감사드립니다.
-            매화 워크스페이스에 합류하게 되어 매우 기쁩니다. 공유해주신 가이드를 참고하여 빠르게 적응하겠습니다.
-            앞으로 좋은 협업 기대하겠습니다.
-            감사합니다.
-            [당신의 이름]',
-          '안녕하세요 :)
-            초대해주셔서 감사합니다!
-            벌써부터 매화 워크스페이스 분위기가 기대되네요. 안내해주신 자료들 꼼꼼히 살펴볼게요.
-            앞으로 활발히 소통하며 잘 지내보아요!
-            좋은 하루 되세요~'
-          '워크스페이스 초대 감사합니다!
-              공유해주신 정보 잘 확인했습니다.
-              곧 Slack에서 뵐게요 :)'
-        """]
-    }
+replyPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
+    {"role": "user", "parts": [reply_prompt]}
 ])
 
 def Login():
@@ -223,11 +156,11 @@ def replyAnswerGenerate(emails):
                 continue  # 바깥 루프로 돌아가 다시 메일 입력받기
 
             try:
-                response = replyPropmt.send_message(selectedEmail)
+                response = replyPrompt.send_message(selectedEmail)
             except Exception as e:
                 print("제한 초과, 60초 후 재시도")
                 time.sleep(60)
-                response = replyPropmt.send_message(selectedEmail)
+                response = replyPrompt.send_message(selectedEmail)
 
             response_list = splitSentence(response.text)
             while True:
@@ -319,6 +252,6 @@ if (len(rows) != 0):
         driver.quit()
         break
 else:
-  print('새로운 메일이 없습니다')
+  print('새로운 메일이 없습니다. \n 프로그램을 종료합니다.')
   driver.quit()
   exit()
