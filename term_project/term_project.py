@@ -10,6 +10,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 import google.generativeai as genai
 from dotenv import load_dotenv
 import pyautogui
+import pygetwindow as gw
+import platform
+import subprocess
 
 # 구글 드라이브 옵션 설정
 options = Options()
@@ -34,6 +37,21 @@ ratingAndSummaryPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_
 replyPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
     {"role": "user", "parts": [reply_prompt]}
 ])
+
+def bring_window_to_front(app_name: str):
+    os_name = platform.system()
+    
+    if os_name == "Windows":
+        import pygetwindow as gw
+        windows = gw.getWindowsWithTitle(app_name)
+        if windows:
+            windows[0].activate()
+    elif os_name == "Darwin":  # macOS
+        subprocess.run(['osascript', '-e', f'tell application "{app_name}" to activate'])
+    elif os_name == "Linux":
+        subprocess.run(['wmctrl', '-a', app_name])
+    else:
+        print("이 운영체제는 지원되지 않습니다.")
 
 def Login():
   driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(USER_EMAIL)
@@ -116,8 +134,21 @@ def getEmails(rows):
     emails[i] = [id,title, email, name, content]
     key, value = analysisWithAI(id, title, name, email, content, i+1)
     data[key] = value
-    pyautogui.click(485, 250)
-    time.sleep(2)
+    elements = driver.find_elements(By.CSS_SELECTOR, 'div.G-Ni.J-J5-Ji')
+    first_element = elements[2]
+    window_position = driver.get_window_position()
+    unreadBtn = first_element.find_element(By.TAG_NAME, 'div')
+    location = unreadBtn.location
+    size = unreadBtn.size
+    print(location, size)
+    x = window_position['x'] + location['x'] + size['width'] // 2
+    y = window_position['y'] + location['y'] + size['height'] // 2 + 130  # 보통 윈도우 크롬의 상단 여백 고려
+
+
+    # 브라우저가 화면 왼쪽 위 기준일 때만 정확함!
+    pyautogui.click(x, y)
+    # pyautogui.click(485, 250)
+    time.sleep(2) 
     
   return emails
 
@@ -133,6 +164,7 @@ def splitSentence(text):
   return response_list
 
 def replyAnswerGenerate(emails):
+    bring_window_to_front("Visual Studio Code")
     while True:
         index = input("AI를 이용하여 답장 초안을 작성하고 싶은 메일이 있다면, 메일의 번호를 입력해주세요 (숫자가 아닌 문자를 입력하면 종료됩니다.): ")
         if not index.isdigit():
@@ -196,6 +228,8 @@ def moveToPrepareToSendEmail(id, content):
   )
   body.click()
   body.send_keys(content)
+  bring_window_to_front("Chrome")
+  
   
 isfirst = True
 if os.path.isdir('/userData'):
@@ -222,7 +256,8 @@ if (API_KEY == None):
 genai.configure(api_key=API_KEY)
 
 driver = webdriver.Chrome(options=options)
-driver.maximize_window()
+# driver.maximize_window()
+driver.set_window_size(1280, 800) 
 driver.get('https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1862105550%3A1744683838397882#inbox')
 
 data = {}
@@ -238,11 +273,12 @@ if (len(rows) != 0):
     score = int(v[1])
     summary = v[2]
     print('★'*(score)+'☆'*(10-score), '['+k+']', summary, end='\n\n')
+  bring_window_to_front("Visual Studio Code")
   while True:
     quit = input('종료 를 입력하면 프로그램이 종료됩니다 그 외 아무키나 누르면 AI를 이용한 답변을 생성해드립니다: ')
     if quit == '종료':
       print('프로그램을 완전히 종료합니다')
-      driver
+      driver.quit()
       break
     else:
       index, answer = replyAnswerGenerate(emails)
