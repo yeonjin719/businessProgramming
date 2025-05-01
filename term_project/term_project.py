@@ -9,6 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 import google.generativeai as genai
 from dotenv import load_dotenv
+import pyautogui
 
 # 구글 드라이브 옵션 설정
 options = Options()
@@ -115,9 +116,9 @@ def getEmails(rows):
     emails[i] = [id,title, email, name, content]
     key, value = analysisWithAI(id, title, name, email, content, i+1)
     data[key] = value
-    menus = driver.find_element(By.CLASS_NAME, 'iH')
-    button = menus.find_element(By.XPATH, './div[1]/div[3]/div[1]')
-    driver.execute_script("arguments[0].click();", button)
+    pyautogui.click(485, 250)
+    time.sleep(2)
+    
   return emails
 
 def splitSentence(text):
