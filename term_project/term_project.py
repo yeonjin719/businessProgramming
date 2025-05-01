@@ -140,14 +140,10 @@ def getEmails(rows):
     unreadBtn = first_element.find_element(By.TAG_NAME, 'div')
     location = unreadBtn.location
     size = unreadBtn.size
-    print(location, size)
     x = window_position['x'] + location['x'] + size['width'] // 2
     y = window_position['y'] + location['y'] + size['height'] // 2 + 130  # 보통 윈도우 크롬의 상단 여백 고려
 
-
-    # 브라우저가 화면 왼쪽 위 기준일 때만 정확함!
     pyautogui.click(x, y)
-    # pyautogui.click(485, 250)
     time.sleep(2) 
     
   return emails
