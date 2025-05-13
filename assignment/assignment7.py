@@ -1,4 +1,4 @@
-file_path = 'assignment/성적_sample.csv'
+file_path = '성적_sample.csv'
 
 weight = [0.1, 0.05, 0.05, 0.05, 0.05, 0.3, 0.4]
 with open(file_path, 'r', encoding='utf-8-sig') as file:
