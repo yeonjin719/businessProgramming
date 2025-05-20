@@ -1,18 +1,11 @@
+import re, time, ast, os, pyautogui, platform, subprocess
+import google.generativeai as genai
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import re
-import time
-import ast
-from selenium.webdriver.chrome.options import Options
-import os
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-import google.generativeai as genai
+from selenium.webdriver.chrome.options import Options
 from dotenv import load_dotenv
-import pyautogui
-import pygetwindow as gw
-import platform
-import subprocess
 
 # 구글 드라이브 옵션 설정
 options = Options()
@@ -27,8 +20,8 @@ def load_prompt(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         return file.read()
 
-rating_prompt = load_prompt('term_project/ratingPrompt.txt')
-reply_prompt = load_prompt('term_project/replyPrompt.txt')
+rating_prompt = load_prompt('ratingPrompt.txt')
+reply_prompt = load_prompt('replyPrompt.txt')
 
 ratingAndSummaryPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
     {"role": "user", "parts": [rating_prompt]}
