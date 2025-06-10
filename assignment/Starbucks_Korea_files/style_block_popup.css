@@ -1,0 +1,50 @@
+/* s: 231201 추가  */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: 'NanumBarunGothic';
+    font-style: normal;
+    font-weight: 400;
+    src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot');
+    src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWeb.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'NanumBarunGothic';
+    font-style: normal;
+    font-weight: 700;
+    src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot');
+    src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebBold.ttf') format('truetype')
+}
+
+@font-face {
+    font-family: 'NanumBarunGothic';
+    font-style: normal;
+    font-weight: 300;
+    src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot');
+    src: url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.eot?#iefix') format('embedded-opentype'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.woff') format('woff'), url('//cdn.jsdelivr.net/font-nanumlight/1.0/NanumBarunGothicWebLight.ttf') format('truetype');
+}
+
+.block_hidden_20231213{overflow: hidden;} /* 20231213 추가 */
+.block_popup_20231130{position:fixed;top:0;left:auto;width:100%;height:100vh;z-index:1000;background-color:#fff;display: block;} /* 20231213 수정 */
+.block_popup_20231130 .inner{max-width:540px;width:100%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.block_sites_popup_main_img{margin-bottom:56px;}
+.block_sites_popup_title{color:#016f4a;font-size:26px;font-family: 'NanumBarunGothic', sans-serif;font-weight:700;line-height:1.5;margin-bottom:26px;}
+.block_sites_popup_text{color:#333;font-weight:600;font-family: 'NanumBarunGothic', sans-serif;font-size:22px;margin-bottom:60px;}
+.block_sites_popup_text a{color:#333;text-decoration:none;}
+.block_sites_popup_text a:hover{text-decoration:underline;}
+.block_sites_progress_status{max-width:400px;width:100%;height:12px;border-radius:50px;margin:0 auto;background:#eee;}
+.block_sites_progress_bar{width:0%;height:12px;border-radius:50px;background-color:#00704a;text-align:left;}
+
+@media screen and (max-width:642px){
+    .block_popup_20231130 .inner{padding:0 3%;box-sizing:border-box;}
+    .block_sites_popup_main_img{width:20%;margin-bottom:30px;}
+    .block_sites_popup_title{font-size:18px;}
+    .block_sites_popup_text{font-size:14px;}
+    .block_sites_progress_status{max-width:280px;height:10px;}
+    .block_sites_progress_bar{height:10px;}
+}
+/* e: 231201 추가  */

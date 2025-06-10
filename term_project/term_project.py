@@ -20,8 +20,8 @@ def load_prompt(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         return file.read()
 
-rating_prompt = load_prompt('ratingPrompt.txt')
-reply_prompt = load_prompt('replyPrompt.txt')
+rating_prompt = load_prompt('term_project/ratingPrompt.txt')
+reply_prompt = load_prompt('term_project/replyPrompt.txt')
 
 ratingAndSummaryPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
     {"role": "user", "parts": [rating_prompt]}

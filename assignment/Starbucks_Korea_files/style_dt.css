@@ -1,0 +1,663 @@
+@charset 'utf-8';
+	
+/*ExpressDT*/
+.dtConWrap .clear{clear:both}
+.dtConWrap .pdR0{padding-right:0 !important}
+.dtConWrap .pdT10{padding-top:10px !important}
+.dtConWrap .fontBold{font-weight:bold !important} /*20180529 추가*/
+
+.dtConWrap .dtInfoWrap {position:relative; width:100%; max-width:830px}
+.dtConWrap .dtInfoWrap header {position:relative}
+.dtConWrap .dtInfoWrap header h6 {padding-bottom:12px; line-height:23px; color:#222; font-size:18px}
+.dtConWrap .dtInfoWrap header span {display:block; padding-bottom:5px; line-height: 16px; color:#666; font-size:12px}
+/* 20180827 my dt pass 상단 문구 조정 */
+.dtConWrap .dtInfoWrap header h6 p.testThin {font-weight: normal; display: inline-block; font-size: 18px;}
+.dtConWrap .dtInfoWrap header span.mBlock {font-size: 16px; color: #000;}
+
+@media screen and (max-width:640px) {
+	.dtConWrap .dtInfoWrap header span.mBlock {font-size: 14px; font-weight: normal; letter-spacing: -0.2px;}
+}
+
+div.dt_pop_up_dimm { background:#000; display:none; height:100%; left:0; opacity:0.7; filter: alpha(opaicty=70); position:fixed; top:0; width:100%; z-index: 97; } /* 240902 수정 */
+
+.dtRegiTblWrap > strong{display:block; font-size:16px}
+.dtConWrap .dtRegiTbl {border-bottom:1px solid #222; border-top:1px solid #222; margin-top:10px}
+.dtConWrap .dtRegiDl {border-bottom:1px solid #e0e0e0; min-height:48px; line-height:30px}
+.dtConWrap .dtRegiTbl dl:last-child{border-bottom:none}
+.dtConWrap .dtRegiTbl dl{position:relative}
+.dtConWrap .dtRegiDl dt,
+.dtConWrap .dtRegiDl dd {font-size:14px; padding:9px 0 9px 2%}
+.dtConWrap .dtRegiDl dt {position:absolute; top:0; left:0; width:205px; background:#f4f4f2; color:#222; font-weight:bold}
+.dtConWrap .dtRegiDl dd {margin-left:215px; color:#ccc}
+.dtConWrap .dtRegiDl dd .dtRegDdTxt,
+.dtConWrap .dtRegiDl dd .dtRegDdTxt2 {float:left; display:inline-block; padding-left:7px; color:#666; font-size:11px}
+.dtConWrap .dtRegiDl dd .dtRegDdTxt,
+.dtConWrap .dtRegiDl dd .dtRegDdTxt2{padding-left:23px; line-height:14px} /*20180528 수정*/
+.dtConWrap .dtRegiDl dd label {display:inline-block; padding-right:35px; color:#666666}
+.dtConWrap .dtRegiDl dd label:last-child{padding-right:0;}
+.dtConWrap .dtRegiDl dd input.card_regi_input1,
+.dtConWrap .dtRegiDl dd input.card_regi_input2 {float:left; height:28px; border:1px solid #ddd; border-radius:3px; color:#666; box-sizing: border-box;
+	padding-left: 5px; /* 190424 jaeseok 추가*/
+}
+.dtConWrap .dtRegiDl dd input.card_regi_input1 {margin-right:7px; width:38%}
+.dtConWrap .dtRegiDl dd input.card_regi_input2 {width:38%}
+.dtConWrap .dtRegiDl dd .dtDDBtn{float:left; display:inline-block; width:11%; min-width:50px; margin-left:1%; height:28px; line-height: 28px; background:#666666; font-size:12px; color:#fff; text-align: center; border-radius: 3px}
+
+.dtConWrap .dtBtnWrap{position:relative; text-align: right; margin:20px 0 0}
+.dtRegiTblWrap.carAdd+.dtBtnWrap.carAdd{margin-top:-30px; width: 40%;}/*190412 jeaseok 수정: 버튼 분리 CSS 추가 */
+.dtConWrap .dtBtnWrap.carAdd{
+	margin-top:-30px; height:30px; width:40%/*190412 jeaseok 수정2: 추가 */
+	}
+.dtConWrap .dtBtnWrap2{position:relative; text-align: right; margin:20px 0 0}
+.dtConWrap .dtBtnWrap a,
+.dtConWrap .dtBtnWrap span,
+.dtConWrap .dtBtnWrap2 a,
+.dtConWrap .dtBtnWrap2 span{display:inline-block; height:28px; line-height:28px; border-radius: 3px; font-size:12px; font-weight:bold; text-align:center}
+.dtConWrap .dtBtnWrap .dtBtn1{position:absolute; top:0; left:0; width:145px; margin-left:0; background:#e2c383; border:1px solid #bb9f65;; color:#222}
+.dtConWrap .dtBtnWrap .dtBtn1::before{content:'+'; display:inline-block;}
+.dtConWrap .dtBtnWrap .dtBtn2,
+.dtConWrap .dtBtnWrap .dtBtn3{width:85px; color:#444; background:#fff; border:1px solid #ddd}
+.dtConWrap .dtBtnWrap2 .dtBtn4{width:85px; color:#fff; background:#006633;text-decoration:none}
+.dtConWrap .dtBtnWrap2 .dtBtn5{width:85px; color:#fff;  background:#222; border:1px solid #222}
+.dtConWrap .dtGuideTxt{margin-top:30px; padding:15px; line-height:20px; background:#f4f4f2; font-size:13px; color:#666666}
+
+.dtConWrap input.disable{background:#f4f4f2}
+.dtConWrap .dtBtnWrap .dtBtn1.disable{background:#e0e0e0; color:#fff; border:1px solid #dddddd} /*20180425 수정*/
+.dtConWrap .dtBtnWrap .dtBtn2.disable,
+.dtConWrap .dtBtnWrap .dtBtn3.disable{color:#cbcbcb; border:1px solid #ebebeb}
+.dtConWrap .dtRegiDl dd .dtDDBtn.disable{background:#e0e0e0}
+
+/*popup*/
+.dtPop {display:none; position: fixed; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -o-transform: translate(-50%, -50%);transform: translate(-50%, -10%); width: 420px; background:#ffffff; border-radius:3px; overflow:hidden; z-index:98} /* 230901 수정 */
+.dtPop02 {display:none; position: absolute; top: 50%; left: 50%; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -o-transform: translate(-50%, -50%);transform: translate(-50%, -10%); width: 420px; background:#ffffff; border-radius:3px; overflow:hidden; z-index:98} /* 230901 수정 */
+
+.dtPop#nickNamePop {top: 35%}  
+.dtPop div.head {position:relative; padding:15px; background:#8c8279; color:#fff; font-size:14px}
+.dtPop div.head p.close {position:absolute; top:15px; right:11px}
+.dtPop div.head p.close a{display:block; width:14px; height:14px; transition:transform 1s; -webkit-transition:-webkit-transform 1s; background:url('../img/util/cal/calpop_close2n.png') 0 0 no-repeat; background-size:100% auto; text-indent:-9999px}
+.dtPop div.head p.close a:hover {transform:rotate(180deg); }
+.dtPop .dtPopInner {position:relative; padding:20px 20px 0 20px}
+.dtPop .dtPopInner p {line-height:20px; font-size:14px; color:#222}
+.dtPop .dtPopInner span {display:inline-block; padding-top:10px; line-height:16px; font-size:12px; color:#666666}
+.dtPop .dtPopInner ul{padding-top:10px; padding-bottom:5px}
+.dtPop .dtPopInner ul li{height:28px}
+.dtPop .dtPopInner ul li label{display:inline-block; padding-left:5px; line-height:20px; font-size:12px; color:#696468}
+.dtPop .dtPopInner .dtPopInput{padding-top:15px}
+.dtPop .dtPopInner .dtPopInput input{width:100%; height:28px; border:1px solid #ddd; border-radius:3px; color:#666; box-sizing: border-box}
+.dtPop .dtPopInner .dtPopConBtn{display:block; text-align: center}
+.dtPop .dtPopInner .dtPopConBtn a{display:inline-block; padding-right:10px; line-height:20px; color:#333; font-size:12px; background:url('../img/util/dtPopBtn.png') no-repeat right 50%; border-bottom:1px dotted #222}
+.dtPop .dtPopInner02 {position:relative; padding: 30px 30px 0 30px} /* 230711 추가 */
+.dtPop .dtPopInner02 p.head {line-height:20px; font-size:16px; color:#222} /* 230711 추가 */
+.dtPop .dtPopInner02 .cont {line-height:20px;font-size:14px;color:#222;margin: 20px 0 0;word-wrap: break-word;word-break: keep-all;} /* 230711 추가 */
+.dtPop .dtPopInner02 p.cont02 {line-height:20px; font-size:14px; color:#222; padding-top:10px;} /* 230711 추가 */
+.dtPop .dtPopInner02 .cont.pdt10, .dtPop .dtPopInner02 p.cont02.pdt10 {padding-top: 10px;}
+.dtPop .dtPopInner02 .cont label.rdo {position: relative; display: block; line-height: 20px; margin-bottom: 10px;font-size: 12px; vertical-align: middle; padding-left: 3px;padding-top: 0.4px;}
+.dtPop .dtPopInner02 div.cont label.rdo:before {position: absolute; content: ''; top: 4px; left: 0; width: 11px; height: 11px; border: 1px solid gray; border-radius: 50%;}
+.dtPop .dtPopInner02 .cont label.rdo input[type=radio]{vertical-align: middle; appearance: none; border-radius: 50%; margin-right: 3px; width: 9px; height: 9px; margin-left: -0.8px; margin-top: -0.4px;}
+.dtPop .dtPopInner02 .cont label.rdo input[type=radio]:checked {background: #222; border: 2px solid #fff;}
+.dtPop .dtPopInner02 .cont label.rdo:last-child {margin:0;}
+.cont .cont_wrap {margin-top: 24px;}
+.cont .cont_wrap #chk01_cont .head, .cont .cont_wrap #chk02_cont .head {margin-bottom: 14px;}
+.cont .cont_wrap #chk01_cont p.cont, .cont .cont_wrap #chk02_cont p.cont {margin: 10px 0; word-wrap: break-word; word-break: keep-all;}
+.dtPop .dtPopInner02 .cont .cont_wrap .corporation_chk .corp_label_wrap {margin: 20px 0;}
+.dtPop .dtPopInner02 .cont .cont_wrap .corporation_chk .corp_label_wrap>label {display: inline-block !important; margin: 0 14px 0 0 !important;}
+
+
+.dtPop02#nickNamePop {top: 35%}  
+.dtPop02 div.head {position:relative; padding:15px; background:#8c8279; color:#fff; font-size:14px}
+.dtPop02 div.head p.close {position:absolute; top:15px; right:11px}
+.dtPop02 div.head p.close a{display:block; width:14px; height:14px; transition:transform 1s; -webkit-transition:-webkit-transform 1s; background:url('../img/util/cal/calpop_close2n.png') 0 0 no-repeat; background-size:100% auto; text-indent:-9999px}
+.dtPop02 div.head p.close a:hover {transform:rotate(180deg); }
+.dtPop02 .dtPopInner {position:relative; padding:20px 20px 0 20px}
+.dtPop02 .dtPopInner p {line-height:20px; font-size:14px; color:#222}
+.dtPop02 .dtPopInner span {display:inline-block; padding-top:10px; line-height:16px; font-size:12px; color:#666666}
+.dtPop02 .dtPopInner ul{padding-top:10px; padding-bottom:5px}
+.dtPop02 .dtPopInner ul li{height:28px}
+.dtPop02 .dtPopInner ul li label{display:inline-block; padding-left:5px; line-height:20px; font-size:12px; color:#696468}
+.dtPop02 .dtPopInner .dtPopInput{padding-top:15px}
+.dtPop02 .dtPopInner .dtPopInput input{width:100%; height:28px; border:1px solid #ddd; border-radius:3px; color:#666; box-sizing: border-box}
+.dtPop02 .dtPopInner .dtPopConBtn{display:block; text-align: center}
+.dtPop02 .dtPopInner .dtPopConBtn a{display:inline-block; padding-right:10px; line-height:20px; color:#333; font-size:12px; background:url('../img/util/dtPopBtn.png') no-repeat right 50%; border-bottom:1px dotted #222}
+.dtPop02 .dtPopInner02 {position:relative; padding: 30px 30px 0 30px} /* 230711 추가 */
+.dtPop02 .dtPopInner02 p.head {line-height:20px; font-size:16px; color:#222} /* 230711 추가 */
+.dtPop02 .dtPopInner02 .cont {line-height:20px;font-size:14px;color:#222;margin: 20px 0 0;word-wrap: break-word;word-break: keep-all;} /* 230711 추가 */
+.dtPop02 .dtPopInner02 p.cont02 {line-height:20px; font-size:14px; color:#222; padding-top:10px;} /* 230711 추가 */
+.dtPop02 .dtPopInner02 .cont.pdt10, .dtPop .dtPopInner02 p.cont02.pdt10 {padding-top: 10px;}
+.dtPop02 .dtPopInner02 .cont label.rdo {position: relative; display: block; line-height: 20px; margin-bottom: 10px;font-size: 12px; vertical-align: middle; padding-left: 3px;padding-top: 0.4px;}
+.dtPop02 .dtPopInner02 div.cont label.rdo:before {position: absolute; content: ''; top: 4px; left: 0; width: 11px; height: 11px; border: 1px solid gray; border-radius: 50%;}
+.dtPop02 .dtPopInner02 .cont label.rdo input[type=radio]{vertical-align: middle; appearance: none; border-radius: 50%; margin-right: 3px; width: 9px; height: 9px; margin-left: -0.8px; margin-top: -0.4px;}
+.dtPop02 .dtPopInner02 .cont label.rdo input[type=radio]:checked {background: #222; border: 2px solid #fff;}
+.dtPop02 .dtPopInner02 .cont label.rdo:last-child {margin:0;}
+
+.cont .cont_wrap {margin-top: 24px;}
+.cont .cont_wrap #chk01_cont .head, .cont .cont_wrap #chk02_cont .head {margin-bottom: 14px;}
+.cont .cont_wrap #chk01_cont p.cont, .cont .cont_wrap #chk02_cont p.cont {margin: 10px 0; word-wrap: break-word; word-break: keep-all;}
+.dtPop .dtPopInner02 .cont .cont_wrap .corporation_chk .corp_label_wrap {margin: 20px 0;}
+.dtPop .dtPopInner02 .cont .cont_wrap .corporation_chk .corp_label_wrap>label {display: inline-block !important; margin: 0 14px 0 0 !important;}
+
+
+
+
+.cont .cont_wrap #chk01_cont .chk01_name {display: flex; justify-content: space-between; padding: 10px 0 20px;}
+.cont .cont_wrap #chk01_cont .chk01_name p, .chk01_name > span{font-size: 14px; color: #222; padding-top: 6px; height: 28px;}
+.cont .cont_wrap #chk01_cont .chk01_name > span {margin-left:6px;}
+.cont .cont_wrap #chk01_cont .chk01_name input.ip_name {width: 54%; border: 1px solid #ddd; height: 28px; line-height: 28px; font-size: 14px; border-radius: 3px; padding: 0 6px; color: #222;}
+.cont .cont_wrap #chk01_cont .chk01_name input.ip_name:focus {outline: none;}
+.cont .cont_wrap #chk01_cont img, .cont .cont_wrap #chk02_cont img {margin-left: -4px;}
+/*e::20191210 소유주 인증 팝업 DB 추가 후 수정*/
+.cont .checks {position: relative;}
+.cont .checks input[type="radio"] { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0;}
+.cont .checks input[type="radio"] + label { display: inline-block; position: relative; padding-left: 30px; cursor: pointer;-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none;}
+.cont .checks input[type="radio"] + label:before { content: ''; position: absolute;left: 0; text-align: center; background: #fff; border: 1px solid gray; border-radius: 100%;}
+.cont .checks input[type="radio"] + label:active:before,.cont .checks input[type="radio"]:checked + label:active:before  { box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px 1px 3px rgba(0,0,0,0.1);}
+.cont .checks input[type="radio"]:checked + label:before { background: #fff; border-color: gray;}
+.cont .checks input[type="radio"]:checked + label:after { content: ''; position: absolute; top: 1px; left: 4.2px; width: 13px; height: 13px; background: #222; border-radius: 100%;}
+
+/* radio size */
+.cont .checks.small input[type="radio"] + label {font-size: 12px;padding-left: 18px;margin: 0 20px 0 0;}
+.cont .checks.small input[type="radio"] + label:before { top: 3px; width: 12px; height: 12px;}
+.cont .checks.small input[type="radio"]:checked + label:after { top: 7.2px; width: 6px; height: 6px;}
+
+.checks:nth-child(2) {margin-top:10px}    
+
+/* s: 240305 MDP 소유자명 자동완성 추천 개발 */
+.cont .cont_wrap p.cont_dot {position: relative; font-size: 12px; padding-left: 10px; word-wrap: break-word; word-break: keep-all;}
+.cont .cont_wrap p.cont_dot:before {content: '';position: absolute; top: 7px; left: 0; width: 4px; height: 4px; background-color: #000; opacity: .6; font-size: 20px; font-weight: 600; border-radius: 50%;}
+/* e: 240305 MDP 소유자명 자동완성 추천 개발 */
+.cont .cont_wrap #chk02_cont .corporation_chk .corporation_chk .corper_txt {display: block; border: 1px solid #ddd; width: 300px; height: 28px; border-radius: 5px;}
+.cont .cont_wrap #chk02_cont .corporation_chk p.cont {margin: 20px 0 0 0 !important;}  
+/* s: 240305 MDP 소유자명 자동완성 추천 개발 */
+.cont .cont_wrap #chk02_cont .corporation_chk .chk02_name {width: 335px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 3px; box-sizing: border-box;}
+.cont .cont_wrap #chk02_cont .corporation_chk .chk02_name.on {border-color: #000;}
+.cont .cont_wrap #chk02_cont .corporation_chk input.corper_txt {position: relative; width: 100%; padding-left: 5px; background-color: rgba(0,0,0,0); font-size: 11px; line-height: 30px; border: none; outline: none; box-sizing: border-box;} 
+.cont .cont_wrap #chk02_cont .corporation_chk input.corper_txt:focus {border: none; outline: none;}
+.input_search_list.on {display: block;}
+.input_search_list {display: none; padding: 5px; border-top: 1px solid #ddd;}
+.input_search_list > li ~ li  {margin-top: 3px;}
+.input_search_list > li > a {display: flex; justify-content: space-between; color: #666; font-size: 11px; line-height: 21px; letter-spacing: -0.025em; word-break: break-all;}
+.input_search_list > li > a:hover {text-decoration: none;}
+.input_search_list .search_txt {width: calc(100% - 68px);}
+.input_search_list .keyword {color: #006633;}
+.input_search_list .info_txt {color: #999;}
+/* e: 240305 MDP 소유자명 자동완성 추천 개발 */
+
+div.gray_box {position:relative; width:100%; background: #f4f4f2; margin: 20px 0 30px;}
+div.gray_box p {display: inline-block; padding: 24px 0; text-align: center; font-weight: 600;}
+div.gray_box p:nth-child(1) {width: 45%;}
+div.gray_box p:nth-child(2) {width: 55%;}
+
+div.gray_box02 {position:relative;width: 100%;background:#f4f4f2;padding:20px;margin-top: 20px;box-sizing: border-box;}
+div.gray_box02 p {line-height: 20px; font-size: 14px; word-wrap: break-word; word-break: keep-all; margin-bottom: 12px;}
+div.gray_box02 p:last-child {margin-bottom: 0;}
+p.point {font-size: 14px;color: #006633;font-weight: 600;line-height: 20px;margin-top: 18px;}
+
+
+.dtPopBtn{padding:20px 0; text-align: center}
+.dtPopBtn a {display:inline-block; width:63px; height:100%; line-height:36px; font-size:14px; text-align:center; border-radius: 3px}
+.dtPopBtn a.dtPopBtn1 {background:#e2c383; border:1px solid #bb9f65; color:#222}
+.dtPopBtn a.dtPopBtn2 {background:#222; border:1px solid #222; color:#fff}
+
+.dtPopBtn02{padding:30px 30px 40px; text-align: center; display: flex; justify-content: space-between;} /* 230711 추가 */
+.dtPopBtn02 a {display:inline-block; width:48%; height:100%; line-height:38px; font-size:14px; text-align:center; border-radius: 3px} /* 230711 추가 */
+.dtPopBtn02 a.dtPopBtn1 {background:#006633; color:#fff} /* 230711 추가 */
+.dtPopBtn02 a.dtPopBtn1.ht40 {padding: 11px 0;} /* 230711 추가 */
+.dtPopBtn02 a.dtPopBtn2 {background:#666; color:#fff} /* 230711 추가 */
+.dtPopBtn02 a.dtPopBtn4 {background: #666; color: #fff; line-height: 20px; padding: 10px 0; height: 40px;} /* 230711 추가 */
+ 
+.dtPopBtn03{padding:30px; text-align: center} /* 230711 추가 */
+.dtPopBtn03 a {display:inline-block;text-decoration: none; width:48%; height:100%; line-height:30px; font-size:14px; text-align:center; border-radius: 3px} /* 230711 추가 */
+.dtPopBtn03 a.dtPopBtn3 {background:#006633; color:#fff} /* 230711 추가 */
+
+.dtPopBtn03 a.dtPopBtn5 {width:180px; height:100%; background: #006633; color:#fff; font-size:14px; text-align: center; line-height: 34px; border-radius: 3px;}
+
+.mgb0 {margin-bottom: 0 !important;}
+.mg0 {margin:0 !important;}
+.fts18 {font-size: 18px !important;}
+.mgt10 {margin-top:10px !important;}
+.size02 {width: 380px !important;}
+.size03 {width: 790px !important}
+
+/*20180425 추가 : 개인정보처리방침*/
+.dtPop.privacy_cont{width:490px; margin-left:-245px}
+.dtPop .mb10{margin-bottom:10px !important}
+.dtPop.privacy_cont .mb40{margin-bottom:20px !important}
+.dtPop .privacyIn{padding:0 20px;/* height:305px;*/ overflow-y:auto}
+.dtPop .privacyIn p,
+.dtPop .privacyIn li{font-size:13px; color:#666467; line-height:19px}
+.dtPop.privacy_cont div.head{padding-left:20px; padding-top:25px; background:#fff; color:#444444; font-size:15px; font-weight:bold; letter-spacing: -0.5px}
+.dtPop.privacy_cont div.head p.tt span{display:inline-block; position:relative; top:-3px; padding-right:3px; font-size:13px}
+.dtPop.privacy_cont div.head p.close a{background:url('../img/util/cal/calpop_close2_2.png') 0 0 no-repeat; background-size:100% auto}
+.dtPop.privacy_cont .pri_tit,
+.dtPop.privacy_cont .pri_tit2{padding-bottom:5px; color:#444; font-weight:bold; font-size:14px}
+.dtPop.privacy_cont ul.pri_con > li { margin-bottom:2px; }
+.dtPop.privacy_cont ul.pri_con ul li { padding-left:20px; margin-bottom:5px; }
+.dtPop.privacy_cont ul.pri_con.dot > li { background:url("https://image.istarbucks.co.kr/common/img/footer/etc/pri_dot.jpg") 3px 8px no-repeat; padding-left:12px; }
+.dtPop table.vod_tb { width:100%; }
+.dtPop table.vod_tb th { padding:14px 0; text-align:center; font-size:13px; font-weight:bold; color:#222; background:#f4f4f2; border-top:1px solid #222; border-bottom:1px solid #ddd; border-right:1px solid #ddd; }
+.dtPop table.vod_tb td { padding:14px 15px; font-size:13px; color:#666; border-bottom:1px solid #ddd; border-right:1px solid #ddd; vertical-align:middle; line-height:1.4; }
+.dtPop table.vod_tb td.ltd { border-bottom:1px solid #222; }
+.dtPop table.vod_tb th.brn { border-right:0; }
+.dtPop table.vod_tb td.brn { border-right:0; }
+.dtPop.privacy_cont p.pri_tail { font-size:12px; color:#666; }
+.dtPop.privacy_cont .fontBlack{color:#222}    
+.dtPop.privacy_cont .dtPopBtn{padding-top:10px}
+
+/* s:230228 신규 추가 */
+.carInfoTblWrap {position: relative; width:100%; height: auto; border-top:1px solid #000; border-bottom:1px solid #000;}
+.carInfoTblWrap ul {display: flex; flex-flow: row wrap; background:#fff;} /* 230321 bg컬러 추가 */
+.carInfoTblWrap ul li {position: relative; display: table; padding: 14px;height: auto; align-items:center; font-size: 13px}
+.carInfoTblWrap ul li:first-child {background:#f4f4f2; color: #000; font-weight: bold; width: 24%; font-size: 14px;}
+.carInfoTblWrap ul li:last-child {background:#fff; width: 66.9%; box-sizing:  border-box;}
+.carInfoTblWrap ul li p {clear:both; }
+.carInfoTblWrap ul li p.pTablecell {display: table-cell; position:relative; height: 100%; width: 100%; vertical-align: middle;}
+.carInfoTblWrap ul li .mdp_certification { position: relative; width: 100%; background: #f6f5ef; padding: 24px 20px; margin-bottom: 26px;}
+.carInfoTblWrap ul li .mdp_certification p:nth-child(2){line-height: 34px;}
+.carInfoTblWrap ul li .mdp_certification p a.btn_certi {position: relative; display: inline-block; padding: 8px 12px; color: #fff; background: #777; margin-left: 10px; border-radius: 3px; line-height: 13px;}
+.carInfoTblWrap ul li .mdp_certification p.certi_point a {color: #006633; font-weight: 600; font-size: 12px; text-decoration: underline; text-underline-position: under;}
+
+.dtPop02#commonPop07 {position:fixed !important; transform: translate(-50%, -40%);}
+
+.txt_black {color: #000 !important;}
+.txt_green {color: #006633 !important;}
+.txt_bold {font-weight:bold !important;}
+.carInfoTblWrap ul li p.dtRegDdTxt2 {position:relative; line-height: 22px; color: #999; font-size: 13px; text-indent: -10px; left:8px;}
+.carInfoTblWrap ul li p.dtRegDdTxt2:before {content:'ㆍ'; position: relative; display: absolute; left:-2px; font-weight: 800;}
+.carInfoTblWrap ul li input.card_regi_input2 { float: left;width:38%; height: 28px; border: 1px solid #ddd; border-radius: 3px; color: #666; box-sizing: border-box; padding-left: 5px;}
+.carInfoTblWrap ul li .inputWrap {width: 100%; padding: 8px 0; height: 30px;}
+.dtCarColor {position: relative; display: block; padding: 20px 0 0 0;}
+.dtCarColor .select_box {position: relative; width:200px; border: 1px solid #ddd; border-radius: 3px; background: #fff url("../img/util/sbox_arrow_down.png") no-repeat right 10px center/12px 7px; overflow: hidden; height: 28px; margin:10px 0;}
+.dtCarColor .select_box select, .dtCarColor .select_wrap select option {width: 200px;}
+.dtCarColor .select_box select {-webkit-appearance: none; appearance: none; border: none; opacity: 0; width: 100%; height: 26px;}
+.carInfoTblWrap ul li .dtDDBtn{float:left; display:inline-block; width:15%; min-width:50px; margin-left:1%; height:28px; line-height: 28px; background:#777; font-size:12px; color:#fff; text-align: center; border-radius: 3px}
+.carInfoTblWrap ul li .dtDDBtn.disable{background:#e0e0e0}
+.dtCarColor .select_wrap label.value {font-size: 14px; width:100%; padding:10px; line-height:28px;}
+
+.nickPop {text-align:center;}
+div#nickPopBtn {background: #006633; color: #fff;width: 46%; height: 36px; line-height: 24px; padding: 6px 0 10px; margin: 20px auto 50px; text-align: center; box-sizing: border-box; border-radius: 2px;}
+div#nickPopBtn a { width: 100%; line-height: 24px; color: #fff; height: 100%; background: none; border: none;}
+.pdt14 {padding-top: 14px;}
+
+/* e:230228 신규 추가 */
+
+
+/* 190423 jaeseok 추가 start*/
+	.OwnerConfirm.dtPop{max-width: 650px; width: 100%;margin-left: -325px;margin-top: -15% !important;}
+	.OwnerConfirm.dtPop .dtPopInner{padding-top:5px;}
+	.OwnerConfirm.dtPop .dpAreaaWrap{margin:0 0 40px;}
+	.OwnerConfirm.dtPop .dpAreaaWrap .SubTitle h5,
+	.OwnerConfirm.dtPop .SubTitle label{
+		font-size: 14px;
+		font-weight: bold;
+		color: #222;
+		padding-top: 16px;
+	}
+	.OwnerConfirm.dtPop .dtPopInner span.t_006633{color:#006633;font-size: 100%;}
+	.OwnerConfirm.dtPop .dpAreaaWrap div.dt_area_check{overflow-y: auto;}
+	.OwnerConfirm.dtPop .dpAreaaWrap div.dt_area_check .privacy_cont .newDtRivacy .privacyIn{overflow: initial;}
+	.OwnerConfirm.dtPop .dpAreaaWrap div.dt_area_check .privacy_cont .newDtRivacy .privacyIn ul{display: inline-block;}
+	.OwnerConfirm.dtPop .dtPopInner span{padding-top: 0;}
+	.OwnerConfirm.dtPop .dtPopInner .NoticeInfo p{margin-top: 10px;font-size: 12px;color: #666467;}
+	.OwnerConfirm.dtPop .dtPopInner .NoticeInfo p::before{content: "*";}
+
+	.dtPop .dtPopInner input.mdpOwnerName{
+		height: 27px;
+		border: solid 1px #ddd;
+		background: none;
+		border-radius: 3px;
+		padding: 0 3px;
+		margin: 0 auto;
+		margin-top: 10px;
+		line-height: 25px;
+		color: #757575;
+		width:270px;
+	}
+/* 190423 jaeseok 추가 end*/
+
+/* s:230228 신규 추가 */
+@media screen and (max-width: 720px) {
+	.carInfoTblWrap {position: relative; width:100%; height: auto; border-top:1px solid #000; border-bottom:1px solid #000;}
+	.carInfoTblWrap ul {display: block;}
+	.carInfoTblWrap ul li {position: relative; display: block; padding: 14px;height: auto; align-items:center; font-size: 12px}
+	.carInfoTblWrap ul li:first-child {background:#fff; width: 100%; font-size: 18px; padding-top: 20px;}
+	.carInfoTblWrap ul li p.pTablecell {display: block; position:relative; height: 100%; width: 100%; vertical-align: middle;}
+	.txt_black {color: #000 !important;}
+	.txt_green {color: #006633 !important;}
+	.txt_bold {font-weight:bold !important;}
+	.carInfoTblWrap ul li p.dtRegDdTxt2 {position:relative; line-height: 22px; color: #666; font-size: 12px; word-break: keep-all; word-wrap: break-word; width: 98%; text-indent: -10px; left:8px;}
+	.carInfoTblWrap ul li p.dtRegDdTxt2:before {content:'ㆍ'; position: relative; display: absolute; left:-2px; font-weight: 800;}
+	.carInfoTblWrap ul li input.card_regi_input2 { float: left;width:70%; height: 36px; border: 1px solid #ddd; border-radius: 3px; color: #666; font-size:14px; box-sizing: border-box; padding-left: 5px;}
+	.carInfoTblWrap ul li .inputWrap {width: 100%; padding: 8px 0; height: 38px;}
+	.carInfoTblWrap ul li .dtDDBtn{float:left; display:inline-block; width:29%; min-width:50px; margin-left:1%; height:36px; line-height: 36px; background:#777; font-size:14px; color:#fff; text-align: center; border-radius: 3px}
+	.dtCarColor {position: relative; display: block; padding: 20px 0 0 0;}
+	.dtCarColor .select_wrap {position: relative; display: block; width: 100%; margin: 10px 0;}
+	.dtCarColor .select_wrap select, .dtCarColor .select_wrap select option {width: 100%;}
+	
+	.dtConWrap .dtBtnWrap {margin:20px 0 !important;}
+	.dtConWrap .dtBtnWrap.carAdd {margin-top: 0 !important}
+		
+}
+/* e:230228 신규 추가 */
+
+@media screen and (max-width:1110px) {
+    .dtConWrap .dtRegiDl dd input.card_regi_input1{width:40%}
+    .dtConWrap .dtRegiDl dd input.card_regi_input2{width:28%}
+}
+
+@media screen and (max-width:960px) {
+    .dtConWrap .dtRegiDl dd input.card_regi_input1 {width:32%}
+    .dtConWrap .dtRegiDl dd input.card_regi_input2 {width:20%}
+}
+
+@media screen and (max-width:640px) {
+    .dtPop.privacy_cont { width:90%; margin-left:-45%; } /*20180425 추가*/
+    .dtPop .privacyIn{padding:0 10px 0 15px} /*20180425 추가*/
+    .dtPop.privacy_cont div.head{padding-left:15px} /*20180425 추가*/
+    
+    .dtPop02.privacy_cont { width:90%; margin-left:-45%; } /*20180425 추가*/
+    .dtPop02 .privacyIn{padding:0 10px 0 15px} /*20180425 추가*/
+    .dtPop02.privacy_cont div.head{padding-left:15px} /*20180425 추가*/
+    
+    .dtConWrap .dtCon2{margin-top:30px; margin-bottom:40px !important}
+    .dtConWrap .dtRegiDl{border-bottom:none}
+	.dtConWrap .dtRegiDl dt {position:relative; width:100%; line-height:25px; background:#fff; font-size:100%}
+	.dtConWrap .dtRegiDl dd {width:98%; margin-left:0; padding-top:0}
+	.dtConWrap .dtRegiDl dd .dtRegDdTxt,
+    .dtConWrap .dtRegiDl dd .dtRegDdTxt2 {clear:both; display:block; padding-left:0; padding-top:5px; line-height:16px}
+    .dtConWrap .dtRegiDl dd .dtRegDdTxt,
+    .dtConWrap .dtRegiDl dd .dtRegDdTxt2{padding-left:8px; padding-bottom:10px} /*20180528 수정*/
+    .dtConWrap .dtRegiDl dd label {padding-right:10%; }
+
+	.dtConWrap .dtRegiDl dd input.card_regi_input1 {width:100%}
+	.dtConWrap .dtRegiDl dd input.card_regi_input2 {width:78%}
+
+    .dtConWrap .dtRegiDl dd .dtDDBtn {width:20%; margin-left:2%}
+
+    .dtConWrap .dtBtnWrap a,
+    .dtConWrap .dtBtnWrap span,
+    .dtConWrap .dtBtnWrap2 a,
+    .dtConWrap .dtBtnWrap2 span{height:38px; line-height:38px; font-size:14px}
+	.dtRegiTblWrap.carAdd+.dtBtnWrap.carAdd{margin-top:10px; width: 100%;}/*190412 jeaseok 수정2: 추가 */
+    .dtConWrap .dtBtnWrap .dtBtn1{position:relative; width:100%; margin-bottom: 10px}
+    .dtConWrap .dtBtnWrap .dtBtn2,
+    .dtConWrap .dtBtnWrap2 .dtBtn4{float:left; width:48%}
+    .dtConWrap .dtBtnWrap .dtBtn3,
+    .dtConWrap .dtBtnWrap2 .dtBtn5{float:right; width:48%}
+
+		/* 190423 jaeseok 추가 start*/
+			.OwnerConfirm.dtPop{width:95%; left:0; margin:0 2.5%;margin-top: -65% !important;}
+			.OwnerConfirm.dtPop .dtPopInner ul li{height:auto;}
+		/* 190423 jaeseok 추가 end*/
+ }   
+
+@media screen and (max-width:350px) {
+    /*popup*/
+    .dtPop { width:90%; margin-left:-45%; }
+	.dtPop .dtPopInner { width:92%; padding:5% 5%;}
+	.dtPop02 { width:90%; margin-left:-45%; }
+	.dtPop02 .dtPopInner { width:92%; padding:5% 5%;}
+}
+
+/*s::20180802 추가*/
+.dtPop.dt_rivacy_style table.vod_tb tr.vod_tr_last td {position: relative; font-size:16px; font-weight: bold;}
+.dtPop.dt_rivacy_style table.vod_tb tr.vod_tr_last td.brn {position: relative; text-decoration: none;}
+
+.dtPop.dt_rivacy_style table.vod_tb tr.vod_tr_last td.brn div {position: relative;}
+.dtPop.dt_rivacy_style table.vod_tb tr.vod_tr_last td.brn div li {position: relative; margin-left:10px; font-size:16px; font-weight: bold; line-height:25px; margin-bottom:5px;}
+.dtPop.dt_rivacy_style table.vod_tb tr.vod_tr_last td.brn div li:before {content: '-'; display:inline-block; margin-left:-10px; position: absolute; left:0; top:1px; line-height:25px;}
+.dtPop.dt_rivacy_style table.vod_tb tr.vod_tr_last td.brn div li.list_three:before {content: '*'; line-height:28px;}
+.dtPop.dt_rivacy_style table.vod_tb tr.vod_tr_last td.brn div li span {padding-bottom:0; border-bottom:1px solid #666467;}
+
+.dtPop.privacy_cont ul.pri_con.pri_style {margin-top:5px;}
+.dtPop.privacy_cont ul.pri_con.pri_style > li {font-size:16px; font-weight: bold; margin-bottom:8px; line-height:21px;}
+.dtPop.privacy_cont ul.pri_con.pri_style > li span {padding-bottom:0; border-bottom:1px solid #666467;}
+/*e::20180802 추가*/
+
+/*s::20181126 MY DT Pass 이용동의 추가*/
+.dpAreaaWrap {margin:30px 0;}
+.dpAreaaWrap .dtAgreeTitle {position:relative; width:100%; overflow: hidden;}
+.dpAreaaWrap .dtAgreeTitle h5,
+.dpAreaaWrap .dtAgreeTitle span.agree-check {float:left; box-sizing: border-box; padding:10px 0;}
+.dpAreaaWrap .dtAgreeTitle h5 {font-size: 16px; font-weight: bold; color: #222; padding-top:16px;}
+.dpAreaaWrap .dtAgreeTitle span.agree-check {width:12%; float:right; display:inline-block; position:relative;}/*20191210 체크박스 width수정 - 소유주 인증 팝업 */
+
+.dtInfoWrap .dpAreaaWrap {margin:30px 0;}
+.dtInfoWrap .dpAreaaWrap .dtAgreeTitle {position:relative; width:100%; overflow: hidden;}
+.dtInfoWrap .dpAreaaWrap .dtAgreeTitle h5,
+.dtInfoWrap .dpAreaaWrap .dtAgreeTitle span.agree-check {float:left; box-sizing: border-box; padding:10px 0;}
+.dtInfoWrap .dpAreaaWrap .dtAgreeTitle h5 {font-size: 16px; font-weight: bold; color: #222; padding-top:16px;}
+.dtInfoWrap .dpAreaaWrap .dtAgreeTitle span.agree-check {width:12%; float:right; display:inline-block; position:relative;}/*20191210 체크박스 width수정 - 소유주 인증 팝업 */
+
+.dtPop .dpAreaaWrap {margin:10px 0;}
+.dtPop .dpAreaaWrap .dtAgreeTitle {position:relative; width:100%; overflow: hidden;}
+.dtPop .dpAreaaWrap .dtAgreeTitle h5,
+.dtPop .dpAreaaWrap .dtAgreeTitle span.agree-check {float:left; box-sizing: border-box; padding:10px 0;}
+.dtPop .dpAreaaWrap .dtAgreeTitle h5 {font-size: 16px; font-weight: bold; color: #222; padding-top:16px;}
+.dtPop .dpAreaaWrap .dtAgreeTitle span.agree-check {width:12%; float:right; display:inline-block; position:relative;}/*20191210 체크박스 width수정 - 소유주 인증 팝업 */
+
+.dtPop02 .dpAreaaWrap {margin:10px 0;}
+.dtPop02 .dpAreaaWrap .dtAgreeTitle {position:relative; width:100%; overflow: hidden;}
+.dtPop02 .dpAreaaWrap .dtAgreeTitle h5,
+.dtPop02 .dpAreaaWrap .dtAgreeTitle span.agree-check {float:left; box-sizing: border-box; padding:10px 0;}
+.dtPop02 .dpAreaaWrap .dtAgreeTitle h5 {font-size: 16px; font-weight: bold; color: #222; padding-top:16px;}
+.dtPop02 .dpAreaaWrap .dtAgreeTitle span.agree-check {width:12%; float:right; display:inline-block; position:relative;}/*20191210 체크박스 width수정 - 소유주 인증 팝업 */
+
+
+
+input.dtpass[type=checkbox]:not(old) {position: absolute; width:20px; height: 20px; top: 11px; right:0px; padding:0;  border: 0 none;  background: #fff; cursor: pointer;} 
+input.dtpass[type=checkbox]:not(old):checked {accent-color: #fff;}
+input.dtpass[type=checkbox]:not(old) + label{position: absolute; right:0; display: inline-block; width: 26px; height: 26px; line-height: 26px; background: #fff url("https://image.istarbucks.co.kr/common/img/util/mem/mem_check_off.png") 0 0 no-repeat ; font-size: 13px; color: #3f4141; cursor: pointer; vertical-align: top; background-size: 26px; text-indent: -9999px; cursor: pointer;  font-size: 0;overflow: hidden;  z-index: 4}/*20180726 ì´ë¯¸ì§€ê²½ë¡œ í™•ì¸ìš© ìž„ì‹œë³€ê²½, ê°œë°œìˆ˜ì •x*/
+input.dtpass[type=checkbox]:checked + label , input.dtpass[type=checkbox]:active + label {background: #fff url('https://image.istarbucks.co.kr/common/img/util/mem/mem_check_on.png') no-repeat 0 0;background-size: 26px;}
+
+input#name_chk[type=checkbox]:not(old) {position: absolute;width: 14px;height: 14px;top: 9px;left: -38%;padding:0;border: 0 none;background: #fff;cursor: pointer;opacity: 0;z-index: 5;} 
+input#name_chk[type=checkbox]:not(old) + label{position: absolute;left: -19px;top: 9px;display: inline-block;width: 14px;height: 14px;line-height: 14px;background: #fff url("https://image.istarbucks.co.kr/img/event/2023/chk_box.jpg") 0 0 no-repeat;font-size: 13px;color: #3f4141;cursor: pointer;vertical-align: top;background-size: 14px;text-indent: -9999px;cursor: pointer;font-size: 0;overflow: hidden;z-index: 4}/*20180726 ì´ë¯¸ì§€ê²½ë¡œ í™•ì¸ìš© ìž„ì‹œë³€ê²½, ê°œë°œìˆ˜ì •x*/
+input#name_chk[type=checkbox]:checked + label , input.dtpass[type=checkbox]:active + label {background: #fff url('https://image.istarbucks.co.kr/img/event/2023/chk_box_active.jpg') no-repeat 0 0;background-size: 14px;}
+p.chk_box {position:relative;}
+
+
+.dpAreaaWrap div.dt_area_check { width:100%; background:#fff; box-sizing:border-box; color:#666; border: 1px solid #ddd; border-radius: 3px; padding: 10px; margin-top:10px; overflow: hidden;}
+.dpAreaaWrap div.dt_area_check .privacy_cont {height:120px;}
+.dpAreaaWrap div.dt_area_check .privacy_cont .newDtRivacy {padding:10px !important;}
+.dpAreaaWrap div.dt_area_check .privacy_cont .newDtRivacy .privacyIn {padding:0 !important;}
+
+.dpAreaaWrap .mCSB_scrollTools .mCSB_draggerRail { width:10px; background:#f4f4f2; }
+.dpAreaaWrap .mCSB_scrollTools .mCSB_dragger { height:33px !important; }
+.dpAreaaWrap .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar { width:10px; background:#666 !important; }
+.dpAreaaWrap .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar:hover { background:#666; }
+.dpAreaaWrap .mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
+.dpAreaaWrap .mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar{ background:#666; }
+.dpAreaaWrap .mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar:hover,
+.dpAreaaWrap .mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar:hover { background:#666; }
+
+
+@media screen and  (max-width:380px) {
+    .dpAreaaWrap .dtAgreeTitle span.agree-check {width:10%;}
+}
+
+@media screen and  (max-width:320px) {
+    .dpAreaaWrap .dtAgreeTitle h5 {font-size:14px;}
+}
+/*e::20181126 MY DT Pass 이용동의 추가*/
+
+.newDtRivacy {padding:20px 0;}
+.newDtRivacy .mb10{margin-bottom:10px !important}
+.newDtRivacy .mb40{margin-bottom:20px !important} 
+.newDtRivacy .privacyIn{padding:0 20px;}
+.newDtRivacy .privacyIn p,
+.newDtRivacy .privacyIn li{font-size:13px; color:#666467; line-height:19px}
+.newDtRivacy div.head{padding:0 0 15px 20px; background:#fff; color:#444444; font-size:15px; font-weight:bold; letter-spacing: -0.5px}
+.newDtRivacy div.head p.tt span{display:inline-block; position:relative; top:-3px; padding-right:3px; font-size:13px}
+.newDtRivacy div.head p.close a{background:url('../img/util/cal/calpop_close2_2.png') 0 0 no-repeat; background-size:100% auto}
+.newDtRivacy .pri_tit,
+.newDtRivacy .pri_tit2{padding-bottom:5px; color:#444; font-weight:bold; font-size:14px}
+.newDtRivacy ul.pri_con > li { margin-bottom:2px; }
+.newDtRivacy ul.pri_con ul li { padding-left:20px; margin-bottom:5px; }
+.newDtRivacy ul.pri_con.dot > li { background:url("https://image.istarbucks.co.kr/common/img/footer/etc/pri_dot.jpg") 3px 8px no-repeat; padding-left:12px; }
+.newDtRivacy table.vod_tb { width:100%; }
+.newDtRivacy table.vod_tb th { padding:14px 0; text-align:center; font-size:13px; font-weight:bold; color:#222; background:#f4f4f2; border-top:1px solid #222; border-bottom:1px solid #ddd; border-right:1px solid #ddd; }
+.newDtRivacy table.vod_tb td { padding:14px 15px; font-size:13px; color:#666; border-bottom:1px solid #ddd; border-right:1px solid #ddd; vertical-align:middle; line-height:1.4; }
+.newDtRivacy table.vod_tb td.ltd { border-bottom:1px solid #222; }
+.newDtRivacy table.vod_tb th.brn { border-right:0; }
+.newDtRivacy table.vod_tb td.brn { border-right:0; }
+.newDtRivacy p.pri_tail { font-size:12px; color:#666; }
+.newDtRivacy .fontBlack{color:#222}
+.newDtRivacy .dtPopBtn{padding-top:10px}
+/*s::20190405 고도화 결제수단 확대 추가*/
+.creCardWrap span.dtpass.cardUn {position: absolute; right: 0; display: inline-block; width: 26px; height: 26px; line-height: 26px; background-color: #e0e0e0; border-radius: 26px; font-size: 13px; color: #3f4141; cursor: pointer; vertical-align: top; background-size: 26px; text-indent: -9999px; cursor: initial; font-size: 0; overflow: hidden; z-index: 4;}
+.creCardWrap span.dtpass.cardOn {background-image: url('../img/util/icon_checked.png'); background-color: #fff; background-repeat: no-repeat; background-position: 0; background-size: 18px 14px; width:18px; height:14px; padding-right:4px; padding-top:11px;}
+
+.dtInfoWrap ul.dtInfoList {position:relative;}
+.dtInfoWrap ul.dtInfoList li,
+.dtInfoWrap ul.dtInfoList li span.mBlock {font-size:13px; color:#666; line-height:1.2;}
+.dtInfoWrap ul.dtInfoList li span.mBlock {padding-bottom:0px;} /*190423 jaeseok 추가*/
+.dtInfoWrap ul.dtInfoList li {background: url('../img/util/bullet_grey.gif') 0 5px no-repeat; text-indent: 10px;
+	padding-bottom:5px; /*190423 jaeseok 추가*/
+}
+.dtInfoWrap ul.dtInfoList li.dtColorGr {background: url('../img/util/bullet_green.gif') 0 5px no-repeat; color:#006633;}
+.dtConWrap .dtInfoWrap .dtRegiTbl {margin-top:35px;}
+.dtInfoWrap .dtCardArea {position:relative; margin-top:0;}
+.dtInfoWrap .dtCardArea dl dd {color:#666;}
+.dtInfoWrap .dtCardArea dl dd .dtRegiCard {position:relative; width:100%; box-sizing: border-box; overflow:hidden;}
+.dtInfoWrap .dtCardArea dl dd .dtRegiCard ul li {display:inline-block; padding-left:20px;}
+.dtInfoWrap .dtCardArea dl dd .dtRegiCard ul li i {padding-right: 3px;}
+.dtInfoWrap .dtCardArea dl dd .dtRegiCard ul li.cardChecked i {background-image: url('../img/util/icon_checked.png'); background-repeat: no-repeat; background-size: 14px 12px; background-position: 0; width:14px; height:12px; display:inline-block;}
+
+.dtInfoWrap .dtInfoTxt {padding-top:10px; text-align:right;}
+.dtInfoWrap .dtInfoTxt p {font-size:11px; color:#666;}
+
+.dtPopInner.dtPopCenter {text-align:center;}
+
+@media screen and (max-width:640px) {
+    .dtInfoWrap .dtCardArea dl dd {width:100%; box-sizing: border-box;}
+    .dtInfoWrap .dtCardArea dl dd .dtRegiCard ul li:first-child {padding-left:0;}
+    .dtInfoWrap .dtInfoTxt {text-align:left; line-height:1.4;}
+    .dtInfoWrap .dtInfoTxt > p {padding:0 5px;}
+    .dtPop {width: 320px !important;}  /* 230901 추가 */
+	.dtPop02 {width: 320px !important;}  /* 230901 추가 */
+	/* s: 240305 MDP 소유자명 자동완성 추천 개발 */
+	#commonPop02.dtPop {width: calc(100% - 40px) !important; max-width: 335px;}
+	#commonPop02.dtPop .dtPopInner02 {padding: 18px 18px 0 18px;}
+	.cont .cont_wrap #chk02_cont .corporation_chk .chk02_name {width: 100%;}
+	.cont .cont_wrap #chk02_cont .corporation_chk input.corper_txt {padding-left: 10px;}
+	.input_search_list {padding: 10px;}
+	/* e: 240305 MDP 소유자명 자동완성 추천 개발 */
+}
+
+@media screen and (max-width:330px) {
+    .dtInfoWrap .dtCardArea dl dd .dtRegiCard ul li,
+    .dtInfoWrap .dtCardArea dl dd .dtRegiCard ul li:first-child {padding-left:14px;}
+    .dtInfoWrap .dtCardArea dl dd .dtRegiCard ul li.cardChecked {padding-left:0;}
+}
+/*e::20190405 고도화 결제수단 확대 추가*/
+
+/*s::20190614 소유주 인증 팝업 추가*/
+.dtPop.ownerPop {width:420px; display:none;}
+.dtPop.ownerPop .dpAreaaWrap {margin:0;}
+.dtPop.ownerPop .dpAreaaWrap .dtAgreeTitle {position:relative; padding:0 0 10px 0;}
+.dtPop.ownerPop .dpAreaaWrap .dtAgreeTitle p,
+.dtPop.ownerPop .dpAreaaWrap .dtAgreeTitle span {display:inline-block;}
+.dtPop.ownerPop .dpAreaaWrap .dtAgreeTitle p {color:#222; font-weight: bold; font-size:14px; padding-top:5px;}
+.dtPop.ownerPop .dpAreaaWrap .dtAgreeTitle p span.t_006633 {color:#006633; font-size:14px;}
+.dtPop.ownerPop .dpAreaaWrap .dtAgreeTitle span {margin-top:-5px;}
+
+.dtPop.ownerPop .ownerAgreeBox {padding:10px 0 0 0; font-size:13px; line-height:1.4; word-break: keep-all; height:55px; overflow:hidden; color:#666666;}
+
+.dtPop.ownerPop .ownerNameArea {margin-top:10px; padding:10px 0 20px;} /* 230206 수정 */
+.dtPop.ownerPop .ownerNameArea .owner_regi_input {width:80%; margin:0 auto; display:block; color:#666666; border:1px solid #ddd; border-radius: 5px; height:28px; padding:0 5px; box-sizing: border-box; line-height:28px;}
+.dtPop.ownerPop .ownerNameArea .owner_regi_input + p {padding:15px 3% 0 3%; font-size:13px; color: #666666; line-height:1.4;}
+
+/*팝업 내 스크롤*/
+.dtPop.ownerPop .mCSB_scrollTools .mCSB_draggerRail { width:5px; background:#f4f4f2; margin-right:0;}
+.dtPop.ownerPop .mCSB_scrollTools .mCSB_dragger { height:33px !important; margin-right:0;}
+.dtPop.ownerPop .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar { width:5px; background:#707070 !important; margin-right:0;}
+.dtPop.ownerPop .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar:hover { background: #707070; }
+
+.dtPop.ownerPop.mCustomScrollbar,
+.dtPop.ownerPop.mCustomScrollbar.mCS_touch_action,
+.dtPop.ownerPop.mCustomScrollbar.mCS_touch_action .mCS-aviva.mCSB_scrollTools {-ms-touch-action: auto; touch-action: auto;}
+.dtPop.ownerPop .mCSB_inside > .mCSB_container {margin-right:15px;}
+.dtPop.ownerPop .dtPopBtn a.disableBtn {background:#e0e0e0; color:#fff; cursor: initial; border:1px solid #e0e0e0;}
+
+/* s: 231110 MDP 소유주 인증 시 로딩바 추가 */ 
+.mdp_loading {position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1003; display: none; mix-blend-mode: darken;}
+.mdp_loading_dimm {position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1002; display: none; background-color: rgba(255,  255, 255, .8);}
+.mdp_loading_inner {position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 100%;}
+.mdp_loading img {display: block; width: 138px; margin: 0 auto;}
+.mdp_loading .mdp_loading_txt {color: #666; font-size: 15px; font-weight: bold; line-height: 22px; letter-spacing: -0.3px; text-align: center;}
+/* e: 231110 MDP 소유주 인증 시 로딩바 추가 */ 
+
+/*mobile*/
+/* s: 230906 수정 */
+@media screen and  (max-width:768px) {
+	.dtPop.size03.ver2 {width: 90% !important; position: fixed !important; height: 80%; -webkit-transform: translate(-50%, -40%); -moz-transform: translate(-50%, -40%); -ms-transform: translate(-50%, -40%); -o-transform: translate(-50%, -40%);transform: translate(-50%, -40%);}
+	.dtPop.size03.ver2 .dtPopInner02 {position:relative; padding: 30px 30px 0 30px; height: calc(100% - 169px); overflow-y: scroll;}
+	.dtPop.size03.ver2 .privacyIn {height: auto;}
+	.dtPop.size03.ver2 .dpAreaaWrap .dtAgreeTitle h5 {width: 85%;}
+}
+/* e: 230906 수정 */
+@media screen and  (max-width:640px) {
+	.dtPop.ownerPop {width:80%; left:0; right:0; margin:0 auto;}
+}
+
+@media screen and  (max-width:431px) {
+	.dtPop.ownerPop .dpAreaaWrap .dtAgreeTitle p {width:80%; word-break: keep-all;}
+}
+@media screen and  (max-width:376px) {
+	.dtPop.ownerPop .dpAreaaWrap .dtAgreeTitle p {width:68%;}
+}
+@media screen and  (max-width:350px) {
+	.cont .cont_wrap #chk02_cont .corporation_chk input.corper_txt{width: 96%;}
+}
+/*e::20190614 소유주 인증 팝업 추가*/
+
+/*s::20191210 소유주 인증 팝업 DB 추가 후 수정*/
+.dtPop .ownerAgreeBox .privacyIn {overflow-y:hidden; padding:0 20px 30px 20px; height:auto;} /*20191210 추가 스크롤 none - 소유주 인증 팝업*/
+.dtPop .ownerAgreeBox .newDtRivacy {padding:0;}/*20191210 웹일때 여백삭제 - 소유주 인증 팝업*/
+.dtPop.ownerPop .ownerAgreeBox .ownerNameArea {display:none;}/*웹에서 삭제*/
+
+@media screen and  (max-width:640px) {
+	.dtPop02 {width: 94% !important;}
+	.dtPop02 .ownerAgreeBox .privacyIn {padding:0 10px 50px 10px;}
+	.dtPop02 .head {font-size: 18px !important;}
+	.dtPop02 div.head p.close a {width: 18px; height: 18px;}
+	.dtPop02 .dpAreaaWrap .dtAgreeTitle h5 {width: 80%; line-height: 22px;}
+	.ver2 {margin-left: 0;}
+	.carInfoTblWrap ul li:last-child {width: 100%;}
+	.dtConWrap .dtBtnWrap.carAdd {width: 100%}
+	
+	
+	.carInfoTblWrap ul li .mdp_certification {position: relative;width: 90%;background: #f6f5ef;padding: 24px 20px;margin-bottom: 26px;height: 120px;}
+	.mdp_certification.case0 {height: 90px !important;}
+	p.case00, p.case01, p.case02, p.case03 {line-height: 20px; padding: 5px 0; word-break: keep-all; word-wrap: break-word;}
+	.carInfoTblWrap ul li .mdp_certification p:nth-child(2) {word-wrap: break-word; word-break: keep-all; line-height: 20px; padding: 5px 0;}
+	.carInfoTblWrap ul li .mdp_certification p a.btn_certi {text-align: center; position: absolute; display: block; padding: 12px 12px; color: #fff; background: #777; margin-left: 10px; border-radius: 3px; line-height: 13px; margin-top: 36px; left: 3%; width: 80%; font-size: 14px;}
+	.carInfoTblWrap ul li .mdp_certification p.certi_point a {color: #006633; font-weight: 600; font-size: 12px;text-decoration: underline; text-underline-position: under;}
+
+}
+/*e::20191210 소유주 인증 팝업 DB 추가 후 수정*/
+.dtPop02 .privacyIn {overflow-y: hidden;}
+
+
+/* s: 240625 앱 업데이트 공통 팝업 추가 */
+.ui.modal-popup.update-popup {position: absolute; left: 0; top: 0; bottom: 0; right: 0; width: 100%; height: 100%; display: none; z-index:20002; background: none; font-family: 'Pretendard', '-apple-system', sans-serif;} /* 240605 수정 */ /* 240731 수정 */
+.ui.modal-popup.update-popup .dim {position: fixed; left: 0; top: 0; width: 100%; height: 100%; background: #000; opacity: .38; z-index: 999;}
+.ui.modal-popup.update-popup .dim.white {background: transparent;}
+.ui.modal-popup.update-popup .modal-inner {display: block; width: auto; min-height: auto; background: none; border-radius: 0; box-shadow: none;}
+.ui.modal-popup.update-popup .modal-inner .content-wrap {position: fixed; left: 50%; top: 50%; -webkit-transform: translate(-50%, -50%); -moz-transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); -o-transform: translate(-50%, -50%); transform: translate(-50%, -50%); width: calc(100% - 48px); max-width: 327px; box-sizing: border-box; padding:0; border-radius: 8px; box-shadow: 0 4px 40px 0 rgba(0, 0, 0, 0.38); background-color: #fff; z-index: 1200; }
+/* .ui.modal-popup.update-popup .modal-inner .message-wrap {font-family: 'Pretendard', 'Apple SD Gothic Neo', 'AppleGothic', 'Apple Gothic', '-apple-system', sans-serif !important;} */ /* 240722 폰트 제거 */
+.ui.modal-popup.update-popup .modal-inner .message-wrap.pd32{padding:32px;}
+.ui.modal-popup.update-popup .modal-inner .message-wrap.pd24{padding:24px;}
+.ui.modal-popup.update-popup .modal-inner .message-wrap {padding:48px 32px 32px; word-break: break-all; font-size: 15px; font-weight: 400; line-height: 1.4; color: rgba(0, 0, 0, 0.58);}
+.ui.modal-popup.update-popup .modal-inner .message-wrap .impossible .state {font-size: 18px; line-height:24px; color: rgba(0, 0, 0, 0.87); word-break: break-all; font-weight:700; }
+.ui.modal-popup.update-popup .modal-inner .message-wrap .impossible .state + .guidance {margin-top: 12px;}
+.ui.modal-popup.update-popup .modal-inner .message-wrap .impossible .guidance { font-size: 16px; line-height:20px; color: rgba(0, 0, 0, 0.58); word-break: break-all; font-weight:400;}
+.ui.modal-popup.update-popup .modal-inner .btn-wrap {margin-top:0; text-align: right; display: flex; justify-content: center; width: 100%; border-top: 1px solid rgba(0, 0, 0, 0.12); text-align: center; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; overflow:hidden}
+.ui.modal-popup.update-popup .modal-inner .btn-wrap button {min-width: 75px; height: auto; padding: 19px 2px; text-align: center; font-size: 16px; font-weight: 600 !important; border-radius:0; line-height: 22px !important; background: none; font-family: 'Pretendard', '-apple-system', sans-serif; word-break: keep-all;} /* 240722 폰트 제거 */ /* 240731 수정 */
+.ui.modal-popup.update-popup .modal-inner .btn-wrap > button{width: 100%; border:none;}
+.ui.modal-popup.update-popup .modal-inner .btn-wrap button + button {margin-left:0; border-left: 1px solid rgba(0, 0, 0, 0.12) !important;}
+/* s: 240731 수정 */
+.ui.modal-popup.update-popup .modal-inner button.negative {color: rgba(0, 0, 0, .38) !important; }
+.ui.modal-popup.update-popup .modal-inner button.positive {color: #00a862 !important; background:#fff;}
+/* e: 240731 수정 */
+.ui.modal-popup.update-popup .modal-inner .btn-close {position: absolute; top: 0; right: 0;}
+/* e: 240625 앱 업데이트 공통 팝업 추가 */
+
