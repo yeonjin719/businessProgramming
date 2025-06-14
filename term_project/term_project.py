@@ -70,7 +70,7 @@ def Login():
       time.sleep(2)
   
 def firstLogin():
-  print('최초 로그인의 경우 개인의 보안설정으로 인하여 패스키 인증 등을 요구할 수 있습니다. 이 경우, 수동으로 패스키 인증을 진행해야 합니다.\n\n')
+  print('이중 보안이 걸려있는 경우 패스키 인증 요청으로 인하여 프로그램이 정상작동하지 않을 수 있습니다.\n 반드시 이중 보안을 해제한 후 프로그램을 동작시켜주세요.\n')
   Login()
   time.sleep(5)
 
@@ -84,7 +84,6 @@ def findUnread():
     return rows
   except:
     print('로그인 과정 중에 오류가 발생하였습니다.')
-    print('주로 처음 로그인을 하거나, 이전에 해당 프로그램을 실행하였으나 최초 로그인이 진행되지 않은 경우 발생합니다.')
     print('로그인을 다시 시도합니다.')
     driver.get('https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1862105550%3A1744683838397882#inbox')
     firstLogin()
