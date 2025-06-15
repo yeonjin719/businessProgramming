@@ -38,7 +38,15 @@ def bring_window_to_front(app_name: str):
     
     if os_name == "Windows":
         import pygetwindow as gw
-        windows = gw.getWindowsWithTitle(app_name)
+        windows = gw.getWindowsWithTitle('')
+        for window in windows:
+            if app_name.lower() in window.title.lower():
+              try:
+                window.activate()
+                return
+              except Exception as e:
+                print(f"창 활성화 실패: {e}")
+        print(f'"{app_name}"가 포함된 창을 찾을 수 없습니다.')
         if windows:
             windows[0].activate()
     elif os_name == "Darwin":  # macOS
@@ -227,7 +235,7 @@ def moveToPrepareToSendEmail(id, content):
   )
   body.click()
   body.send_keys(content)
-  bring_window_to_front("Chrome")
+  bring_window_to_front("gmail")
   
   
 USER_EMAIL = os.getenv('GMAIL_EMAIL')
