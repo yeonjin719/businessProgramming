@@ -33,28 +33,21 @@ replyPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(histor
     {"role": "user", "parts": [reply_prompt]}
 ])
 
-def bring_window_to_front(app_name: str):
+import platform
+import subprocess
+
+def bring_window_to_front(app_name_substring: str):
     os_name = platform.system()
-    
-    if os_name == "Windows":
-        import pygetwindow as gw
-        windows = gw.getWindowsWithTitle('')
-        for window in windows:
-            if app_name.lower() in window.title.lower():
-              try:
-                window.activate()
-                return
-              except Exception as e:
-                print(f"창 활성화 실패: {e}")
-        print(f'"{app_name}"가 포함된 창을 찾을 수 없습니다.')
-        if windows:
-            windows[0].activate()
-    elif os_name == "Darwin":  # macOS
-        subprocess.run(['osascript', '-e', f'tell application "{app_name}" to activate'])
-    elif os_name == "Linux":
-        subprocess.run(['wmctrl', '-a', app_name])
+
+    if os_name == "Darwin":  # macOS
+        try:
+            subprocess.run(['osascript', '-e', f'tell application "{app_name_substring}" to activate'], check=True)
+            print(f"✅ macOS: '{app_name_substring}' 앱을 전면으로 가져왔습니다.")
+        except Exception as e:
+            print(f"❌ macOS: 창 활성화 실패 - {e}")
     else:
-        print("이 운영체제는 지원되지 않습니다.")
+        print(f"❗ 이 운영체제는 자동 창 전환이 지원되지 않습니다: {os_name}")
+
 
 def Login():
   driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(USER_EMAIL)
@@ -140,19 +133,8 @@ def getEmails(rows):
     data[key] = value
     elements = driver.find_elements(By.CSS_SELECTOR, 'div.G-Ni.J-J5-Ji')
     first_element = elements[2]
-    window_position = driver.get_window_position()
-    
-    buttons = driver.find_elements(By.CSS_SELECTOR, '.T-I.J-J5-Ji.bvt.T-I-ax7.T-I-Js-IF.mA')
-    print(f"[DEBUG] Found {len(buttons)} buttons.")
-
     unreadBtn = first_element.find_element(By.CSS_SELECTOR, '.T-I.J-J5-Ji.bvt.T-I-ax7.T-I-Js-IF.mA')
     ActionChains(driver).move_to_element(unreadBtn).click().perform()
-    # location = unreadBtn.location
-    # size = unreadBtn.size
-    # x = window_position['x'] + location['x'] + size['width'] // 2
-    # y = window_position['y'] + location['y'] + size['height'] // 2 + 130  
-
-    # pyautogui.click(x, y)
     time.sleep(2) 
     
   return emails
