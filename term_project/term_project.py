@@ -49,11 +49,12 @@ def bring_window_to_front(app_name: str):
 def Login():
   driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(USER_EMAIL)
   driver.find_element(By.XPATH, '//*[@id="identifierNext"]/div/button').click()
-  time.sleep(2)
+  WebDriverWait(driver, 15).until(
+    EC.visibility_of_element_located((By.NAME, "Passwd"))
+)
   try:
     driver.find_element(By.XPATH,'//*[@id="password"]/div[1]/div/div[1]/input').send_keys(USER_PASSWORD)
     driver.find_element(By.XPATH,'//*[@id="passwordNext"]/div/button').click()
-    time.sleep(2)
   
   except:
       current_url = driver.current_url
@@ -64,10 +65,11 @@ def Login():
       element = driver.find_element(By.XPATH, '//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div/div/form/span/section[2]/div/div/section/div/div/div/ul/li[2]/div')
 
       driver.execute_script("arguments[0].click();", element)
-      time.sleep(3)
+      WebDriverWait(driver, 15).until(
+        EC.visibility_of_element_located((By.NAME, "Passwd"))
+      )
       driver.find_element(By.XPATH,'//*[@id="password"]/div[1]/div/div[1]/input').send_keys(USER_PASSWORD)
       driver.find_element(By.XPATH,'//*[@id="passwordNext"]/div/button').click()
-      time.sleep(2)
   
 def firstLogin():
   print('이중 보안이 걸려있는 경우 패스키 인증 요청으로 인하여 프로그램이 정상작동하지 않을 수 있습니다.\n 반드시 이중 보안을 해제한 후 프로그램을 동작시켜주세요.\n')
@@ -77,7 +79,9 @@ def firstLogin():
 def findUnread():
   try:
     driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
-    time.sleep(5)
+    WebDriverWait(driver, 15).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, ".ae4.UI.aZ6"))
+    )
     target = driver.find_element(By.CLASS_NAME, 'bv9')
     table = target.find_element(By.CLASS_NAME, 'Cp')
     rows = table.find_elements(By.TAG_NAME , 'tr')
@@ -105,10 +109,8 @@ def analysisWithAI(id, title, name, email, content, index):
       print("제한 초과, 60초 후 재시도")
       time.sleep(60)
       response = ratingAndSummaryPrompt.send_message(input_str)
-  # print(response.text)
   key, value_str = response.text.split(":", 1)
   value = ast.literal_eval(value_str.strip())
-  # responses[key.strip()] = value
   return key.strip(), value
 
 def getEmails(rows):
@@ -208,7 +210,9 @@ def replyAnswerGenerate(emails):
 def moveToPrepareToSendEmail(id, content):
   url = 'https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox/'+id
   driver.get(url)
-  time.sleep(5)
+  WebDriverWait(driver, 15).until(
+        EC.visibility_of_element_located((By.CLASS_NAME, "bkH"))
+  )
   button = driver.find_element(By.CLASS_NAME, 'bkH')
   driver.execute_script("arguments[0].click();", button)
   body = WebDriverWait(driver, 10).until(
