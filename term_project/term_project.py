@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.action_chains import ActionChains
 from dotenv import load_dotenv
 
 # 구글 드라이브 옵션 설정
@@ -81,7 +82,7 @@ def findUnread():
   try:
     driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
     WebDriverWait(driver, 15).until(
-        EC.visibility_of_element_located((By.CLASS_NAME, "bv9"))
+        EC.presence_of_element_located((By.CLASS_NAME, "Cp"))
     )
     target = driver.find_element(By.CLASS_NAME, 'bv9')
     table = target.find_element(By.CLASS_NAME, 'Cp')
@@ -132,13 +133,18 @@ def getEmails(rows):
     elements = driver.find_elements(By.CSS_SELECTOR, 'div.G-Ni.J-J5-Ji')
     first_element = elements[2]
     window_position = driver.get_window_position()
-    unreadBtn = first_element.find_element(By.TAG_NAME, 'div')
-    location = unreadBtn.location
-    size = unreadBtn.size
-    x = window_position['x'] + location['x'] + size['width'] // 2
-    y = window_position['y'] + location['y'] + size['height'] // 2 + 130  # 보통 윈도우 크롬의 상단 여백 고려
+    
+    buttons = driver.find_elements(By.CSS_SELECTOR, '.T-I.J-J5-Ji.bvt.T-I-ax7.T-I-Js-IF.mA')
+    print(f"[DEBUG] Found {len(buttons)} buttons.")
 
-    pyautogui.click(x, y)
+    unreadBtn = first_element.find_element(By.CSS_SELECTOR, '.T-I.J-J5-Ji.bvt.T-I-ax7.T-I-Js-IF.mA')
+    ActionChains(driver).move_to_element(unreadBtn).click().perform()
+    # location = unreadBtn.location
+    # size = unreadBtn.size
+    # x = window_position['x'] + location['x'] + size['width'] // 2
+    # y = window_position['y'] + location['y'] + size['height'] // 2 + 130  
+
+    # pyautogui.click(x, y)
     time.sleep(2) 
     
   return emails
