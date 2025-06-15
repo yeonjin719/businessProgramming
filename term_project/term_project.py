@@ -13,6 +13,8 @@ options.add_argument("--incognito")
 options.add_argument('--disable-blink-features=AutomationControlled')
 options.add_experimental_option('detach', True)
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
+options.add_argument("window-position=0,0")
+options.add_argument("window-size=1280,800")
 load_dotenv()
 
 def load_prompt(filename):
@@ -79,7 +81,7 @@ def findUnread():
   try:
     driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
     WebDriverWait(driver, 15).until(
-        EC.visibility_of_element_located((By.CSS_SELECTOR, ".ae4.UI.aZ6. bv9. Cp"))
+        EC.visibility_of_element_located((By.CLASS_NAME, "bv9"))
     )
     target = driver.find_element(By.CLASS_NAME, 'bv9')
     table = target.find_element(By.CLASS_NAME, 'Cp')
@@ -243,8 +245,6 @@ if (API_KEY == None):
 genai.configure(api_key=API_KEY)
 
 driver = webdriver.Chrome(options=options)
-# driver.maximize_window()
-driver.set_window_size(1280, 800) 
 driver.get('https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1862105550%3A1744683838397882#inbox')
 
 data = {}
