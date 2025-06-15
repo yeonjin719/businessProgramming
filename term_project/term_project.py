@@ -9,7 +9,6 @@ from dotenv import load_dotenv
 
 # 구글 드라이브 옵션 설정
 options = Options()
-options.add_argument('user-data-dir=./term_project/userData')
 options.add_argument("--incognito") 
 options.add_argument('--disable-blink-features=AutomationControlled')
 options.add_experimental_option('detach', True)
@@ -223,10 +222,6 @@ def moveToPrepareToSendEmail(id, content):
   bring_window_to_front("Chrome")
   
   
-isfirst = True
-if os.path.isdir('/userData'):
-  isfirst = False
-
 USER_EMAIL = os.getenv('GMAIL_EMAIL')
 USER_PASSWORD = os.getenv('GMAIL_PASSWORD')
 API_KEY = os.getenv('API_KEY')
@@ -253,8 +248,8 @@ driver.set_window_size(1280, 800)
 driver.get('https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1862105550%3A1744683838397882#inbox')
 
 data = {}
-if (isfirst):
-  firstLogin()
+
+firstLogin()
 
 rows = findUnread()
 
