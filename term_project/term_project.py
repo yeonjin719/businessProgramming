@@ -9,6 +9,10 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import StaleElementReferenceException
 
+# pip install -r requirements.txt 를 통해 쉽게 라이브러리를 설치할 수 있습니다.
+# 파이썬 버전 3.12.7 버전 이상에서 개발 되었으므로, 해당 버전 이상에서 실행해주세요.
+
+
 # 프롬프트를 불러오는 함수
 def load_prompt(filename):
     with open(filename, 'r', encoding='utf-8') as file:

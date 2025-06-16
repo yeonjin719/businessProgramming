@@ -1,0 +1,4 @@
+# ✅ 개발 환경: Python 3.12.7 이상 기준
+selenium==4.15.2
+python-dotenv==1.0.1
+google-generativeai==0.3.2
