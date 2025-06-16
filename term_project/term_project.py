@@ -60,7 +60,7 @@ def findUnread():
   try:
     driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
     WebDriverWait(driver, 15).until(
-        EC.presence_of_element_located((By.CLASS_NAME, "Cp"))
+        EC.visibility_of_element_located((By.CLASS_NAME, "Cp"))
     )
     target = driver.find_element(By.CLASS_NAME, 'bv9')
     table = target.find_element(By.CLASS_NAME, 'Cp')
