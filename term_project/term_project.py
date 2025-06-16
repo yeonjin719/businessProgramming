@@ -51,7 +51,7 @@ def Login():
       driver.find_element(By.XPATH,'//*[@id="passwordNext"]/div/button').click()
   
 def firstLogin():
-  print('이중 보안이 걸려있는 경우 패스키 인증 요청으로 인하여 프로그램이 정상작동하지 않을 수 있습니다.\n 반드시 이중 보안을 해제한 후 프로그램을 동작시켜주세요.\n')
+  print('\n\n🔐 이중 보안이 설정된 계정에서는 패스키 인증으로 인해 자동화가 실패할 수 있습니다.\n👉 반드시 이중 인증을 해제한 후 프로그램을 실행해주세요.\n')
   Login()
   time.sleep(5)
 
@@ -67,8 +67,8 @@ def findUnread():
     rows = table.find_elements(By.TAG_NAME , 'tr')
     return rows
   except:
-    print('로그인 과정 중에 오류가 발생하였습니다.')
-    print('로그인을 다시 시도합니다.')
+    print('⚠️ 로그인 과정 중에 오류가 발생하였습니다. ⚠️')
+    print('🔄 로그인을 다시 시도합니다. 🔄')
     driver.get('https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1862105550%3A1744683838397882#inbox')
     firstLogin()
 
@@ -87,7 +87,7 @@ def analysisWithAI(id, title, name, email, content, index):
   try:
       response = ratingAndSummaryPrompt.send_message(input_str)
   except Exception as e:
-      print("제한 초과, 60초 후 재시도")
+      print("⚠️ Gemini API 이용 제한 초과, 🔄 60초 후 재시도 🔄")
       time.sleep(60)
       response = ratingAndSummaryPrompt.send_message(input_str)
   key, value_str = response.text.split(":", 1)
@@ -168,73 +168,112 @@ def splitSentence(text):
 # AI로 답장 초안을 작성하는 함수
 def replyAnswerGenerate(emails):
     bring_window_to_front("Visual Studio Code")
+
     while True:
-        index = input("AI를 이용하여 답장 초안을 작성하고 싶은 메일이 있다면, 메일의 번호를 입력해주세요 (숫자가 아닌 문자를 입력하면 프로그램이 종료됩니다.): ")
+        index = input(
+            "\n📩 AI 답장을 작성하고 싶은 메일의 번호를 입력해주세요.\n"
+            "   - 숫자가 아닌 문자를 입력하면 프로그램이 종료됩니다.\n"
+            "입력: "
+        )
+        print('\n')
         if not index.isdigit():
-            print('프로그램을 종료합니다.')
+            print('🛑 프로그램을 종료합니다. 이용해주셔서 감사합니다!')
             return -1, -1
+        
+        index_int = int(index) - 1
+        
         try:
-            selectedEmail = emails[int(index) - 1]
+            selectedEmail = emails[index_int]
+
             while True:
-                isAffirmation = input(index + '번 메일에 긍정적인 답변을 하고 싶다면 "긍정", 부정적인 답변을 하고 싶다면 "부정"이라고 따옴표 없이 입력해주세요. \n메일 번호를 다시 고르고 싶으면 0을 입력해주세요: ')
+                isAffirmation = input(
+                    f"\n📌 {index}번 메일에 대해 어떤 성격의 답장을 생성하시겠습니까?\n"
+                    "   - 긍정적인 답변: 긍정\n"
+                    "   - 부정적인 답변: 부정\n"
+                    "   - 메일 번호를 다시 고르려면: 0\n"
+                    "입력: "
+                )
                 
                 if isAffirmation == '0':
-                    print('메일 번호를 다시 골라주세요')
+                    print('메일 번호를 다시 골라주세요.')
                     break
                 
                 if isAffirmation not in ['긍정', '부정']:
-                    print('반드시 긍정 혹은 부정으로만 입력해주세요.')
+                    print('❗ 반드시 긍정 혹은 부정으로만 입력해주세요.')
                 else:
-                    print(f'{index}번 메일에 {isAffirmation}적인 답변을 생성합니다.')
-                    selectedEmail.append(isAffirmation)
+                    print(f"🤖 {index}번 메일에 대해 '{isAffirmation}'적인 AI 답변을 생성 중입니다... 잠시만 기다려주세요.\n")
+                    selectedEmail_with_label = selectedEmail.copy()
+                    selectedEmail_with_label.append(isAffirmation)
                     break
-            if len(selectedEmail)!=6:
-                continue  # 바깥 루프로 돌아가 다시 메일 입력받기
+
+            if len(selectedEmail_with_label) != 6:
+                continue
 
             try:
-                response = replyPrompt.send_message(selectedEmail)
+                response = replyPrompt.send_message(selectedEmail_with_label)
             except Exception as e:
-                print("제한 초과, 60초 후 재시도")
+                print("❌ 제한 초과, 60초 후 재시도")
                 time.sleep(60)
-                response = replyPrompt.send_message(selectedEmail)
+                response = replyPrompt.send_message(selectedEmail_with_label)
 
             response_list = splitSentence(response.text)
+
             while True:
-              targetIndex = input('생성된 AI 답변으로 메일을 작성하러 가고 싶으면, 마음에 드는 답변의 번호를 입력해주세요. 마음에 들지 않는다면 0을 입력해주세요 (0을 입력하면 메일 선택으로 돌아갑니다): ')
-              
-              if not targetIndex.isdigit():
-                  print('정확한 번호를 입력해주세요')
-                  continue
+                targetIndex = input(
+                    "\n💬 아래 중 마음에 드는 답변의 번호를 입력해주세요.\n"
+                    "   - 번호 1~3 중 선택 → 해당 내용으로 메일 초안 작성\n"
+                    "   - 0 입력 → 다시 메일 선택 단계로 이동\n"
+                    "입력: "
+                )
+                
+                if not targetIndex.isdigit():
+                    print('❗ 정확한 번호를 입력해주세요')
+                    continue
 
-              targetIndex = int(targetIndex)  # 문자열 → 정수로 변환
+                targetIndex = int(targetIndex)
 
-              if targetIndex == 0:
-                  break
-              elif targetIndex < 1 or targetIndex > 3:
-                  print('정확한 번호를 입력해주세요')
-              else:
-                  print(f'{targetIndex}번 답변으로 메일 초안을 작성합니다.')
-                  return int(index)-1, response_list[targetIndex - 1]
+                if targetIndex == 0:
+                    break
+                elif 1 <= targetIndex <= len(response_list):
+                    print(f'💬 {targetIndex}번 답변으로 메일 초안을 작성합니다.')
+                    return index_int, response_list[targetIndex - 1]
+                else:
+                    print('❗ 정확한 번호를 입력해주세요')
 
-                      
-        except:
-          print('입력하신 번호에 해당하는 메일이 없습니다. 다시 입력해주세요.')
+        except (IndexError, KeyError):
+            print('❌ 입력하신 번호에 해당하는 메일이 없습니다. 다시 입력해주세요.')
 
 # AI가 작성한 메일 초안을 자동으로 메일 답장 기능에 채워주는 함수
 def moveToPrepareToSendEmail(id, content):
-  url = 'https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox/'+id
-  driver.get(url)
-  WebDriverWait(driver, 15).until(
-        EC.visibility_of_element_located((By.CLASS_NAME, "bkH"))
-  )
-  button = driver.find_element(By.CLASS_NAME, 'bkH')
-  driver.execute_script("arguments[0].click();", button)
-  body = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label="메일 본문"][contenteditable="true"]'))
-  )
-  body.click()
-  body.send_keys(content)
-  bring_window_to_front("Chrome")
+    url = f'https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox/{id}'
+    driver.get(url)
+
+    try:
+        body = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label="메일 본문"][contenteditable="true"]'))
+        )
+        print("⚠️ 이미 초안이 작성되어 있습니다.\n🔄 기존 내용을 초기화하고 새로운 답변을 작성합니다.")
+
+        body.click()
+        body.clear()  
+        body.send_keys(content)
+
+    except:
+        WebDriverWait(driver, 15).until(
+            EC.element_to_be_clickable((By.CLASS_NAME, "bkH"))
+        )
+        button = driver.find_element(By.CLASS_NAME, 'bkH')
+        driver.execute_script("arguments[0].click();", button)
+
+        body = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label="메일 본문"][contenteditable="true"]'))
+        )
+        body.click()
+        body.send_keys(content)
+
+    print('📬 메일 초안 작성을 완료하였습니다. 크롬 창을 확인해주세요.')
+    bring_window_to_front("Chrome")
+
 
 
 # 구글 드라이브 옵션 설정
@@ -298,18 +337,19 @@ rows = findUnread()
 if (len(rows) != 0):
   emails = getEmails()
   sortedData = dict(sorted(data.items(), key=lambda x: int(x[1][1]), reverse=True))
-  
+  print('📬 분석된 메일 요약 목록 (중요도 순):\n')
   for k, v in sortedData.items():
     score = int(v[1])
     summary = v[2]
-    print('★'*(score)+'☆'*(10-score), '['+k+']', summary, end='\n\n')
+    print('★'*(score)+'☆'*(10-score), f"[{k}] {summary}\n")
+
     
   bring_window_to_front("Visual Studio Code")
   
   while True:
     quit = input('종료 를 입력하면 프로그램이 종료됩니다 그 외 아무키나 누르면 AI를 이용한 답변을 생성해드립니다: ')
     if quit == '종료':
-      print('프로그램을 완전히 종료합니다')
+      print('🛑 프로그램을 종료합니다. 이용해주셔서 감사합니다!')
       driver.quit()
       break
     else:
@@ -317,11 +357,11 @@ if (len(rows) != 0):
       if (answer != -1 and index != -1):
         moveToPrepareToSendEmail(sortedData[str(index+1)][0], answer)
       else:
-        print('답변을 생성하지 않고 프로그램을 종료합니다.')
+        print('🛑 답변을 생성하지 않고 프로그램을 종료합니다. 이용해주셔서 감사합니다!')
         driver.quit()
         break
       
 else:
-  print('새로운 메일이 없습니다. \n 프로그램을 종료합니다.')
+  print('🛑새로운 메일이 없습니다. \n 프로그램을 종료합니다. 이용해주셔서 감사합니다!')
   driver.quit()
   exit()
