@@ -342,8 +342,8 @@ if (len(rows) != 0):
     score = int(v[1])
     summary = v[2]
     print('★'*(score)+'☆'*(10-score), f"[{k}] {summary}\n")
-
-    
+  if (os_name != 'Darwin'):
+    driver.execute_script("alert('메일 요약 분석이 완료되었습니다! 반드시 alert창을 끄고 vscode를 확인해주세요!');")
   bring_window_to_front("Visual Studio Code")
   
   while True:
