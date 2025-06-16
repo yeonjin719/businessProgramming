@@ -1,41 +1,19 @@
-import re, time, ast, os, pyautogui, platform, subprocess
+import re, time, ast, os, platform, subprocess
 import google.generativeai as genai
+from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
-from dotenv import load_dotenv
 
-# 구글 드라이브 옵션 설정
-options = Options()
-options.add_argument("--incognito") 
-options.add_argument('--disable-blink-features=AutomationControlled')
-options.add_experimental_option('detach', True)
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
-options.add_argument("window-position=0,0")
-options.add_argument("window-size=1280,800")
-load_dotenv()
-
+# 프롬프트를 불러오는 함수
 def load_prompt(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         return file.read()
 
-rating_prompt = load_prompt('term_project/ratingPrompt.txt')
-reply_prompt = load_prompt('term_project/replyPrompt.txt')
-
-ratingAndSummaryPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
-    {"role": "user", "parts": [rating_prompt]}
-])
-
-replyPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
-    {"role": "user", "parts": [reply_prompt]}
-])
-
-import platform
-import subprocess
-
+# macOS에서 자동 창 전환 (Chrome이 가장 위에 뜨도록 하거나, vscode가 가장 위에 뜨게 함.)
 def bring_window_to_front(app_name_substring: str):
     os_name = platform.system()
 
@@ -44,10 +22,8 @@ def bring_window_to_front(app_name_substring: str):
             subprocess.run(['osascript', '-e', f'tell application "{app_name_substring}" to activate'], check=True)
         except Exception as e:
             print(f"❌ macOS: 창 활성화 실패 - {e}")
-    else:
-        print(f"❗ 이 운영체제는 자동 창 전환이 지원되지 않습니다: {os_name}")
 
-
+# 자동으로 지메일을 이용하기 위해 로그인하는 함수
 def Login():
   driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(USER_EMAIL)
   driver.find_element(By.XPATH, '//*[@id="identifierNext"]/div/button').click()
@@ -78,6 +54,7 @@ def firstLogin():
   Login()
   time.sleep(5)
 
+# 읽지 않은 메일 필터링하는 함수
 def findUnread():
   try:
     driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
@@ -94,6 +71,7 @@ def findUnread():
     driver.get('https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1862105550%3A1744683838397882#inbox')
     firstLogin()
 
+# 읽지 않은 메일의 메일 아이디를 가져오는 함수
 def getEmailsId():
   url = driver.current_url  # 현재 URL 가져옴
   # 메일 ID 추출
@@ -102,8 +80,8 @@ def getEmailsId():
       message_id = match.group(1)
   return message_id
 
+# AI를 활용하여 이메일을 요약하는 함수
 def analysisWithAI(id, title, name, email, content, index):
-  # responses = {}
   input_str= f"{index}: ['{id}', '{title}', '{name}', '{email}', '{content}']"
   try:
       response = ratingAndSummaryPrompt.send_message(input_str)
@@ -115,29 +93,78 @@ def analysisWithAI(id, title, name, email, content, index):
   value = ast.literal_eval(value_str.strip())
   return key.strip(), value
 
-def getEmails(rows):
-  emails = {}
-  for i in range(len(rows)):
-    element = rows[i].find_element(By.CLASS_NAME, 'xS')
-    driver.execute_script("arguments[0].click();", element)
-    time.sleep(2)
-    title = driver.find_element(By.CLASS_NAME,'hP').text
-    content = driver.find_element(By.CLASS_NAME, 'gs').text
-    span = driver.find_element(By.CLASS_NAME, 'gD')
-    email = span.get_attribute('email')
-    name = span.get_attribute('name')
-    id = getEmailsId()
-    emails[i] = [id,title, email, name, content]
-    key, value = analysisWithAI(id, title, name, email, content, i+1)
-    data[key] = value
-    elements = driver.find_elements(By.CSS_SELECTOR, 'div.G-Ni.J-J5-Ji')
-    first_element = elements[2]
-    unreadBtn = first_element.find_element(By.CSS_SELECTOR, '.T-I.J-J5-Ji.bvt.T-I-ax7.T-I-Js-IF.mA')
-    ActionChains(driver).move_to_element(unreadBtn).click().perform()
-    time.sleep(2) 
-    
-  return emails
+# 읽지 않은 메일을 가져오는 함수
+from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
 
+def getEmails():
+    emails = {}
+    index = 0
+
+    while True:
+        try:
+            # 현재 읽지 않은 메일 목록 가져오기
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, ".Cp tr"))
+            )
+            rows = driver.find_elements(By.CSS_SELECTOR, ".Cp tr")
+
+            # 더 이상 메일 없으면 break
+            if index >= len(rows):
+                break
+
+            # 현재 index 번째 메일 요소 가져오기
+            row = rows[index]
+
+            # 메일 클릭
+            title_element = row.find_element(By.CLASS_NAME, 'xS')
+            driver.execute_script("arguments[0].click();", title_element)
+
+            # 메일 내용 기다림
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, 'hP'))
+            )
+            title = driver.find_element(By.CLASS_NAME, 'hP').text
+            content = driver.find_element(By.CLASS_NAME, 'gs').text
+            span = driver.find_element(By.CLASS_NAME, 'gD')
+            email = span.get_attribute('email')
+            name = span.get_attribute('name')
+            id = getEmailsId()
+
+            emails[index] = [id, title, email, name, content]
+
+            # AI 분석
+            key, value = analysisWithAI(id, title, name, email, content, index + 1)
+            data[key] = value
+
+            # 읽지 않음으로 되돌리기
+            elements = driver.find_elements(By.CSS_SELECTOR, 'div.G-Ni.J-J5-Ji')
+            if len(elements) >= 3:
+                unreadBtn = elements[2].find_element(By.CSS_SELECTOR, '.T-I.J-J5-Ji.bvt.T-I-ax7.T-I-Js-IF.mA')
+                ActionChains(driver).move_to_element(unreadBtn).click().perform()
+
+            # 다시 메일 목록으로 이동
+            driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CLASS_NAME, "Cp"))
+            )
+
+            index += 1  # 다음 메일로
+
+        except StaleElementReferenceException:
+            print(f"❗ {index+1}번째 메일의 요소가 만료되어 재시도합니다.")
+            driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
+            continue
+
+        except Exception as e:
+            print(f"❌ {index+1}번째 메일 처리 중 오류: {e}")
+            driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
+            index += 1
+            continue
+
+    return emails
+
+
+# AI가 작성한 답변에서 문장만 추출하는 함수
 def splitSentence(text):
   raw_split = text.split("'")
 
@@ -149,10 +176,11 @@ def splitSentence(text):
       print(f"[{i}] {r}\n")
   return response_list
 
+# AI로 답장 초안을 작성하는 함수
 def replyAnswerGenerate(emails):
     bring_window_to_front("Visual Studio Code")
     while True:
-        index = input("AI를 이용하여 답장 초안을 작성하고 싶은 메일이 있다면, 메일의 번호를 입력해주세요 (숫자가 아닌 문자를 입력하면 종료됩니다.): ")
+        index = input("AI를 이용하여 답장 초안을 작성하고 싶은 메일이 있다면, 메일의 번호를 입력해주세요 (숫자가 아닌 문자를 입력하면 프로그램이 종료됩니다.): ")
         if not index.isdigit():
             print('프로그램을 종료합니다.')
             return -1, -1
@@ -196,13 +224,14 @@ def replyAnswerGenerate(emails):
               elif targetIndex < 1 or targetIndex > 3:
                   print('정확한 번호를 입력해주세요')
               else:
-                  print(f'{targetIndex}번 답변으로 메일을 작성하러 이동합니다.')
+                  print(f'{targetIndex}번 답변으로 메일 초안을 작성합니다.')
                   return int(index)-1, response_list[targetIndex - 1]
 
                       
         except:
           print('입력하신 번호에 해당하는 메일이 없습니다. 다시 입력해주세요.')
 
+# AI가 작성한 메일 초안을 자동으로 메일 답장 기능에 채워주는 함수
 def moveToPrepareToSendEmail(id, content):
   url = 'https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox/'+id
   driver.get(url)
@@ -216,13 +245,37 @@ def moveToPrepareToSendEmail(id, content):
   )
   body.click()
   body.send_keys(content)
-  bring_window_to_front("gmail")
-  
-  
+  bring_window_to_front("Chrome")
+
+
+# 구글 드라이브 옵션 설정
+options = Options()
+options.add_argument("--incognito") 
+options.add_argument('--disable-blink-features=AutomationControlled')
+options.add_experimental_option('detach', True)
+options.add_experimental_option('excludeSwitches', ['enable-logging'])
+options.add_argument("window-position=0,0")
+options.add_argument("window-size=1280,800")
+load_dotenv()
+
+# 프롬프트 로드
+rating_prompt = load_prompt('term_project/ratingPrompt.txt')
+reply_prompt = load_prompt('term_project/replyPrompt.txt')
+
+ratingAndSummaryPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
+    {"role": "user", "parts": [rating_prompt]}
+])
+
+replyPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
+    {"role": "user", "parts": [reply_prompt]}
+])
+
+# .env 파일에서 이메일, 비밀번호, API key 로드
 USER_EMAIL = os.getenv('GMAIL_EMAIL')
 USER_PASSWORD = os.getenv('GMAIL_PASSWORD')
 API_KEY = os.getenv('API_KEY')
 
+# 예외처리
 if (USER_EMAIL == None):
   print("❌ 이메일이 설정되지 않았습니다. 환경 변수 GMAIL_EMAIL를 설정하세요.")
   exit()
@@ -243,19 +296,27 @@ driver = webdriver.Chrome(options=options)
 driver.get('https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1862105550%3A1744683838397882#inbox')
 
 data = {}
+os_name = platform.system()
 
+# macOS만 자동 창 전환 지원
+if os_name != 'Darwin':
+  print(f'❗ 이 운영체제는 자동 창 전환이 지원되지 않습니다: {os_name}')
+  
 firstLogin()
 
 rows = findUnread()
 
 if (len(rows) != 0):
-  emails = getEmails(rows)
+  emails = getEmails()
   sortedData = dict(sorted(data.items(), key=lambda x: int(x[1][1]), reverse=True))
+  
   for k, v in sortedData.items():
     score = int(v[1])
     summary = v[2]
     print('★'*(score)+'☆'*(10-score), '['+k+']', summary, end='\n\n')
+    
   bring_window_to_front("Visual Studio Code")
+  
   while True:
     quit = input('종료 를 입력하면 프로그램이 종료됩니다 그 외 아무키나 누르면 AI를 이용한 답변을 생성해드립니다: ')
     if quit == '종료':
@@ -270,6 +331,7 @@ if (len(rows) != 0):
         print('답변을 생성하지 않고 프로그램을 종료합니다.')
         driver.quit()
         break
+      
 else:
   print('새로운 메일이 없습니다. \n 프로그램을 종료합니다.')
   driver.quit()
