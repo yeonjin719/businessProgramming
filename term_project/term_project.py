@@ -7,6 +7,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import StaleElementReferenceException
 
 # 프롬프트를 불러오는 함수
 def load_prompt(filename):
@@ -94,32 +95,23 @@ def analysisWithAI(id, title, name, email, content, index):
   return key.strip(), value
 
 # 읽지 않은 메일을 가져오는 함수
-from selenium.common.exceptions import StaleElementReferenceException, TimeoutException
-
 def getEmails():
     emails = {}
     index = 0
 
     while True:
         try:
-            # 현재 읽지 않은 메일 목록 가져오기
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, ".Cp tr"))
             )
             rows = driver.find_elements(By.CSS_SELECTOR, ".Cp tr")
-
-            # 더 이상 메일 없으면 break
             if index >= len(rows):
                 break
-
-            # 현재 index 번째 메일 요소 가져오기
             row = rows[index]
 
-            # 메일 클릭
             title_element = row.find_element(By.CLASS_NAME, 'xS')
             driver.execute_script("arguments[0].click();", title_element)
 
-            # 메일 내용 기다림
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, 'hP'))
             )
@@ -132,23 +124,20 @@ def getEmails():
 
             emails[index] = [id, title, email, name, content]
 
-            # AI 분석
             key, value = analysisWithAI(id, title, name, email, content, index + 1)
             data[key] = value
 
-            # 읽지 않음으로 되돌리기
             elements = driver.find_elements(By.CSS_SELECTOR, 'div.G-Ni.J-J5-Ji')
             if len(elements) >= 3:
                 unreadBtn = elements[2].find_element(By.CSS_SELECTOR, '.T-I.J-J5-Ji.bvt.T-I-ax7.T-I-Js-IF.mA')
                 ActionChains(driver).move_to_element(unreadBtn).click().perform()
 
-            # 다시 메일 목록으로 이동
             driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "Cp"))
             )
 
-            index += 1  # 다음 메일로
+            index += 1  
 
         except StaleElementReferenceException:
             print(f"❗ {index+1}번째 메일의 요소가 만료되어 재시도합니다.")
