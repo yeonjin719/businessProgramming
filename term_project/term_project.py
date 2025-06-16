@@ -14,12 +14,12 @@ from selenium.common.exceptions import StaleElementReferenceException
 
 
 # 프롬프트를 불러오는 함수
-def load_prompt(filename):
+def loadPrompt(filename):
     with open(filename, 'r', encoding='utf-8') as file:
         return file.read()
 
 # macOS에서 자동 창 전환 (Chrome이 가장 위에 뜨도록 하거나, vscode가 가장 위에 뜨게 함.)
-def bring_window_to_front(app_name_substring: str):
+def bringWindowToFront(app_name_substring: str):
     os_name = platform.system()
 
     if os_name == "Darwin":  # macOS
@@ -29,7 +29,7 @@ def bring_window_to_front(app_name_substring: str):
             print(f"❌ macOS: 창 활성화 실패 - {e}")
 
 # 자동으로 지메일을 이용하기 위해 로그인하는 함수
-def Login():
+def login():
   driver.find_element(By.XPATH, '//*[@id="identifierId"]').send_keys(USER_EMAIL)
   driver.find_element(By.XPATH, '//*[@id="identifierNext"]/div/button').click()
   WebDriverWait(driver, 15).until(
@@ -53,11 +53,6 @@ def Login():
       )
       driver.find_element(By.XPATH,'//*[@id="password"]/div[1]/div/div[1]/input').send_keys(USER_PASSWORD)
       driver.find_element(By.XPATH,'//*[@id="passwordNext"]/div/button').click()
-  
-def firstLogin():
-  print('\n\n🔐 이중 보안이 설정된 계정에서는 패스키 인증으로 인해 자동화가 실패할 수 있습니다.\n👉 반드시 이중 인증을 해제한 후 프로그램을 실행해주세요.\n')
-  Login()
-  time.sleep(5)
 
 # 읽지 않은 메일 필터링하는 함수
 def findUnread():
@@ -74,7 +69,9 @@ def findUnread():
     print('⚠️ 로그인 과정 중에 오류가 발생하였습니다. ⚠️')
     print('🔄 로그인을 다시 시도합니다. 🔄')
     driver.get('https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&emr=1&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&osid=1&passive=1209600&service=mail&flowName=GlifWebSignIn&flowEntry=ServiceLogin&dsh=S-1862105550%3A1744683838397882#inbox')
-    firstLogin()
+    print('\n\n🔐 이중 보안이 설정된 계정에서는 패스키 인증으로 인해 자동화가 실패할 수 있습니다.\n👉 반드시 이중 인증을 해제한 후 프로그램을 실행해주세요.\n')
+    login()
+    time.sleep(5)
 
 # 읽지 않은 메일의 메일 아이디를 가져오는 함수
 def getEmailsId():
@@ -156,7 +153,6 @@ def getEmails():
 
     return emails
 
-
 # AI가 작성한 답변에서 문장만 추출하는 함수
 def splitSentence(text):
   raw_split = text.split("'")
@@ -171,7 +167,7 @@ def splitSentence(text):
 
 # AI로 답장 초안을 작성하는 함수
 def replyAnswerGenerate(emails):
-    bring_window_to_front("Visual Studio Code")
+    bringWindowToFront("Visual Studio Code")
 
     while True:
         index = input(
@@ -276,7 +272,7 @@ def moveToPrepareToSendEmail(id, content):
         body.send_keys(content)
 
     print('📬 메일 초안 작성을 완료하였습니다. 크롬 창을 확인해주세요.')
-    bring_window_to_front("Chrome")
+    bringWindowToFront("Chrome")
 
 
 
@@ -291,8 +287,8 @@ options.add_argument("window-size=1280,800")
 load_dotenv()
 
 # 프롬프트 로드
-rating_prompt = load_prompt('term_project/ratingPrompt.txt')
-reply_prompt = load_prompt('term_project/replyPrompt.txt')
+rating_prompt = loadPrompt('term_project/ratingPrompt.txt')
+reply_prompt = loadPrompt('term_project/replyPrompt.txt')
 
 ratingAndSummaryPrompt = genai.GenerativeModel('gemini-1.5-flash-latest').start_chat(history=[
     {"role": "user", "parts": [rating_prompt]}
@@ -334,7 +330,10 @@ os_name = platform.system()
 if os_name != 'Darwin':
   print(f'❗ 이 운영체제는 자동 창 전환이 지원되지 않습니다: {os_name}')
   
-firstLogin()
+
+print('\n\n🔐 이중 보안이 설정된 계정에서는 패스키 인증으로 인해 자동화가 실패할 수 있습니다.\n👉 반드시 이중 인증을 해제한 후 프로그램을 실행해주세요.\n')
+login()
+time.sleep(5)
 
 rows = findUnread()
 
@@ -348,7 +347,7 @@ if (len(rows) != 0):
     print('★'*(score)+'☆'*(10-score), f"[{k}] {summary}\n")
   if (os_name != 'Darwin'):
     driver.execute_script("alert('메일 요약 분석이 완료되었습니다! 반드시 확인버튼을 누르고 vscode를 확인해주세요!');")
-  bring_window_to_front("Visual Studio Code")
+  bringWindowToFront("Visual Studio Code")
   
   while True:
     quit = input('종료 를 입력하면 프로그램이 종료됩니다 그 외 아무키나 누르면 AI를 이용한 답변을 생성해드립니다: ')

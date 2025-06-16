@@ -65,9 +65,8 @@ term_project/
 ├── term_project.py
 ├── ratingPrompt.txt
 ├── replyPrompt.txt
-├── userData/                # Chrome 사용자 데이터 (자동 생성)
-├── .env
-└── README.md
+├── requirements.txt
+└── .env
 ```
 
 ---
