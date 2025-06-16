@@ -40,19 +40,24 @@ def login():
     driver.find_element(By.XPATH,'//*[@id="passwordNext"]/div/button').click()
   
   except:
-      current_url = driver.current_url
-      id = re.search(r'pwd?TL=([^&]+)', current_url).group(1)
-      time.sleep(2)
-      driver.get(f'https://accounts.google.com/v3/signin/challenge/selection?TL={id}&checkConnection=youtube%3A264&checkedDomains=youtube&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&dsh=S-1862105550%3A1744683838397882&emr=1&flowEntry=ServiceLogin&flowName=GlifWebSignIn&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&lid=1&osid=1&pstMsg=1&service=mail')
-      time.sleep(2)
-      element = driver.find_element(By.XPATH, '//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div/div/form/span/section[2]/div/div/section/div/div/div/ul/li[2]/div')
-
-      driver.execute_script("arguments[0].click();", element)
-      WebDriverWait(driver, 15).until(
-        EC.visibility_of_element_located((By.NAME, "Passwd"))
-      )
-      driver.find_element(By.XPATH,'//*[@id="password"]/div[1]/div/div[1]/input').send_keys(USER_PASSWORD)
-      driver.find_element(By.XPATH,'//*[@id="passwordNext"]/div/button').click()
+    try:
+        current_url = driver.current_url
+        id = re.search(r'pwd?TL=([^&]+)', current_url).group(1)
+        time.sleep(2)
+        driver.get(f'https://accounts.google.com/v3/signin/challenge/selection?TL={id}&checkConnection=youtube%3A264&checkedDomains=youtube&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&dsh=S-1862105550%3A1744683838397882&emr=1&flowEntry=ServiceLogin&flowName=GlifWebSignIn&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&lid=1&osid=1&pstMsg=1&service=mail')
+        time.sleep(2)
+        element = driver.find_element(By.XPATH, '//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div/div/form/span/section[2]/div/div/section/div/div/div/ul/li[2]/div')
+        driver.execute_script("arguments[0].click();", element)
+        WebDriverWait(driver, 15).until(
+          EC.visibility_of_element_located((By.NAME, "Passwd"))
+        )
+        driver.find_element(By.XPATH,'//*[@id="password"]/div[1]/div/div[1]/input').send_keys(USER_PASSWORD)
+        driver.find_element(By.XPATH,'//*[@id="passwordNext"]/div/button').click()
+    except Exception as e:
+        print(f"❌ 추가 인증 또는 로그인 과정에서 오류가 발생했습니다: {e}")
+        print("🛑 프로그램을 종료합니다. 이용해주셔서 감사합니다!")
+        driver.quit()
+        exit()
 
 # 읽지 않은 메일 필터링하는 함수
 def findUnread():
