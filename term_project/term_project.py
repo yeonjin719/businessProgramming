@@ -101,7 +101,7 @@ def getEmails():
 
     while True:
         try:
-            WebDriverWait(driver, 10).until(
+            WebDriverWait(driver, 20).until(
                 EC.presence_of_element_located((By.CSS_SELECTOR, ".Cp tr"))
             )
             rows = driver.find_elements(By.CSS_SELECTOR, ".Cp tr")
