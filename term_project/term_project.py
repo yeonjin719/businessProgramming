@@ -42,7 +42,6 @@ def bring_window_to_front(app_name_substring: str):
     if os_name == "Darwin":  # macOS
         try:
             subprocess.run(['osascript', '-e', f'tell application "{app_name_substring}" to activate'], check=True)
-            print(f"✅ macOS: '{app_name_substring}' 앱을 전면으로 가져왔습니다.")
         except Exception as e:
             print(f"❌ macOS: 창 활성화 실패 - {e}")
     else:
