@@ -360,9 +360,12 @@ if (len(rows) != 0):
   if (os_name != 'Darwin'):
     driver.execute_script("alert('메일 요약 분석이 완료되었습니다! 반드시 확인버튼을 누르고 vscode를 확인해주세요!');")
   bringWindowToFront("Visual Studio Code")
-  WebDriverWait(driver, 10).until(EC.alert_is_present())
-  alert = Alert(driver)
-  alert.accept()
+  try:
+    WebDriverWait(driver, 10).until(EC.alert_is_present())
+    alert = Alert(driver)
+    alert.accept()
+  except: 
+    pass
   while True:
     quit = input('종료 를 입력하면 프로그램이 종료됩니다 그 외 아무키나 누르면 AI를 이용한 답변을 생성해드립니다: ')
     if quit == '종료':
