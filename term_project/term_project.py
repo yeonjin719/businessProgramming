@@ -285,13 +285,13 @@ def moveToPrepareToSendEmail(id, content):
 
 
 def close_alert_after_delay(driver, delay=10):
+    time.sleep(delay)
     try:
-        WebDriverWait(driver, delay).until(EC.alert_is_present())
         alert = Alert(driver)
         alert.accept()
-        print("✅ alert 창이 닫혔습니다.")
+        print("✅ Alert 자동으로 닫힘.")
     except:
-        print("⚠️ alert 창이 열리지 않았거나 이미 닫혔습니다.")
+        print("⚠️ Alert 닫기 실패 또는 존재하지 않음.")
 
 
 
