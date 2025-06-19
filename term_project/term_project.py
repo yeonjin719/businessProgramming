@@ -289,9 +289,8 @@ def close_alert_after_delay(driver, delay=10):
     try:
         alert = Alert(driver)
         alert.accept()
-        print("✅ Alert 자동으로 닫힘.")
     except:
-        print("⚠️ Alert 닫기 실패 또는 존재하지 않음.")
+        pass
 
 
 
@@ -368,7 +367,7 @@ if (len(rows) != 0):
     bar = bar + ' ' * padding
     print(f"{bar}  [{k}] {summary}\n")
   if (os_name != 'Darwin'):
-    driver.execute_script("alert('메일 요약 분석이 완료되었습니다! 반드시 확인버튼을 누르고 vscode를 확인해주세요!');")
+    driver.execute_script("alert('메일 요약 분석이 완료되었습니다! 확인버튼을 누르고 vscode를 확인해주세요!');")
     threading.Thread(target=close_alert_after_delay, args=(driver, 10), daemon=True).start()
   bringWindowToFront("Visual Studio Code")
   
