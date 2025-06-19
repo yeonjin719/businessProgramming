@@ -347,10 +347,7 @@ os_name = platform.system()
 
 # macOS만 자동 창 전환 지원
 if (os_name != 'Darwin'):
-    driver.execute_script("alert('메일 요약 분석이 완료되었습니다! 반드시 확인버튼을 누르고 vscode를 확인해주세요!');")
-    
-    # 10초 내에 alert이 뜨고 닫히도록 백그라운드에서 처리
-    threading.Thread(target=close_alert_after_delay, args=(driver, 10), daemon=True).start()
+    print(f'⚠️ macOS가 아닌 운영체제에서는 자동 창 전환 기능이 지원되지 않습니다: {os_name}')
 
 print('\n\n🔐 이중 보안이 설정된 계정에서는 패스키 인증으로 인해 자동화가 실패할 수 있습니다.\n👉 반드시 이중 보안을 해제한 후 프로그램을 실행해주세요.\n')
 login()
@@ -372,6 +369,7 @@ if (len(rows) != 0):
     print(f"{bar}  [{k}] {summary}\n")
   if (os_name != 'Darwin'):
     driver.execute_script("alert('메일 요약 분석이 완료되었습니다! 반드시 확인버튼을 누르고 vscode를 확인해주세요!');")
+    threading.Thread(target=close_alert_after_delay, args=(driver, 10), daemon=True).start()
   bringWindowToFront("Visual Studio Code")
   
   while True:
