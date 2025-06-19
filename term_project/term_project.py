@@ -1,5 +1,6 @@
 import re, time, ast, os, platform, subprocess
 import google.generativeai as genai
+from wcwidth import wcswidth
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -45,8 +46,9 @@ def login():
         id = re.search(r'pwd?TL=([^&]+)', current_url).group(1)
         time.sleep(2)
         driver.get(f'https://accounts.google.com/v3/signin/challenge/selection?TL={id}&checkConnection=youtube%3A264&checkedDomains=youtube&continue=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&dsh=S-1862105550%3A1744683838397882&emr=1&flowEntry=ServiceLogin&flowName=GlifWebSignIn&followup=https%3A%2F%2Fmail.google.com%2Fmail%2Fu%2F1%2F&ifkv=AXH0vVsgjXN1T0wMyFbhzv0i4DFT4gXCmGb2_0oxLBhvVbFcgplbJWf1NgcWXkzGkCRjZND9OJmiHA&lid=1&osid=1&pstMsg=1&service=mail')
-        time.sleep(2)
-        element = driver.find_element(By.XPATH, '//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div/div/form/span/section[2]/div/div/section/div/div/div/ul/li[2]/div')
+        element = WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, '//*[@id="yDmH0d"]/c-wiz/div/div[2]/div/div/div/form/span/section[2]/div/div/section/div/div/div/ul/li[2]/div'))
+        )
         driver.execute_script("arguments[0].click();", element)
         WebDriverWait(driver, 15).until(
           EC.visibility_of_element_located((By.NAME, "Passwd"))
@@ -121,12 +123,12 @@ def getEmails():
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, 'hP'))
             )
-            title = driver.find_element(By.CLASS_NAME, 'hP').text
-            content = driver.find_element(By.CLASS_NAME, 'gs').text
+            title = driver.find_element(By.CLASS_NAME, 'hP').text   # 이메일 제목 가져오기
+            content = driver.find_element(By.CLASS_NAME, 'gs').text # 이메일 내용 가져오기
             span = driver.find_element(By.CLASS_NAME, 'gD')
-            email = span.get_attribute('email')
-            name = span.get_attribute('name')
-            id = getEmailsId()
+            email = span.get_attribute('email')                     # 이메일 주소 가져오기
+            name = span.get_attribute('name')                       # 이메일 이름 가져오기
+            id = getEmailsId()                                      # 이메일 ID 가져오기
 
             emails[index] = [id, title, email, name, content]
 
@@ -134,11 +136,11 @@ def getEmails():
             data[key] = value
 
             elements = driver.find_elements(By.CSS_SELECTOR, 'div.G-Ni.J-J5-Ji')
-            if len(elements) >= 3:
+            if len(elements) >= 3: 
                 unreadBtn = elements[2].find_element(By.CSS_SELECTOR, '.T-I.J-J5-Ji.bvt.T-I-ax7.T-I-Js-IF.mA')
                 ActionChains(driver).move_to_element(unreadBtn).click().perform()
 
-            driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread')
+            driver.get('https://mail.google.com/mail/u/0/?pli=1#search/is%3Aunread') # 읽지 않은 메일 필터링
             WebDriverWait(driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "Cp"))
             )
@@ -283,12 +285,12 @@ def moveToPrepareToSendEmail(id, content):
 
 # 구글 드라이브 옵션 설정
 options = Options()
-options.add_argument("--incognito") 
-options.add_argument('--disable-blink-features=AutomationControlled')
-options.add_experimental_option('detach', True)
-options.add_experimental_option('excludeSwitches', ['enable-logging'])
-options.add_argument("window-position=0,0")
-options.add_argument("window-size=1280,800")
+options.add_argument("--incognito") # 시크릿 모드로 실행
+options.add_argument('--disable-blink-features=AutomationControlled') # 자동화 감지 방지
+options.add_experimental_option('detach', True) # 브라우저가 닫히지 않도록 설정
+options.add_experimental_option('excludeSwitches', ['enable-logging']) # 불필요한 로그 제거
+options.add_argument("window-position=0,0") # 창 위치 설정
+options.add_argument("window-size=1280,800") # 창 크기 설정
 load_dotenv()
 
 # 프롬프트 로드
@@ -336,7 +338,7 @@ if os_name != 'Darwin':
   print(f'❗ 이 운영체제는 자동 창 전환이 지원되지 않습니다: {os_name}')
   
 
-print('\n\n🔐 이중 보안이 설정된 계정에서는 패스키 인증으로 인해 자동화가 실패할 수 있습니다.\n👉 반드시 이중 인증을 해제한 후 프로그램을 실행해주세요.\n')
+print('\n\n🔐 이중 보안이 설정된 계정에서는 패스키 인증으로 인해 자동화가 실패할 수 있습니다.\n👉 반드시 이중 보안을 해제한 후 프로그램을 실행해주세요.\n')
 login()
 time.sleep(5)
 
@@ -349,7 +351,11 @@ if (len(rows) != 0):
   for k, v in sortedData.items():
     score = int(v[1])
     summary = v[2]
-    print('★'*(score)+'☆'*(10-score), f"[{k}] {summary}\n")
+    star = '⭐'
+    bar = star * score
+    padding = 10 * 2 - wcswidth(bar)  # 1개의 ⭐는 너비 2로 측정됨
+    bar = bar + ' ' * padding
+    print(f"{bar}  [{k}] {summary}\n")
   if (os_name != 'Darwin'):
     driver.execute_script("alert('메일 요약 분석이 완료되었습니다! 반드시 확인버튼을 누르고 vscode를 확인해주세요!');")
   bringWindowToFront("Visual Studio Code")
