@@ -9,6 +9,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.webdriver.common.alert import Alert
 
 # pip install -r requirements.txt 를 통해 쉽게 라이브러리를 설치할 수 있습니다.
 # 파이썬 버전 3.12.7 버전 이상에서 개발 되었으므로, 해당 버전 이상에서 실행해주세요.
@@ -359,7 +360,9 @@ if (len(rows) != 0):
   if (os_name != 'Darwin'):
     driver.execute_script("alert('메일 요약 분석이 완료되었습니다! 반드시 확인버튼을 누르고 vscode를 확인해주세요!');")
   bringWindowToFront("Visual Studio Code")
-  
+  WebDriverWait(driver, 10).until(EC.alert_is_present())
+  alert = Alert(driver)
+  alert.accept()
   while True:
     quit = input('종료 를 입력하면 프로그램이 종료됩니다 그 외 아무키나 누르면 AI를 이용한 답변을 생성해드립니다: ')
     if quit == '종료':
