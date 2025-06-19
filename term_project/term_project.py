@@ -1,6 +1,5 @@
-import re, time, ast, os, platform, subprocess
+import re, time, ast, os, platform, subprocess, threading
 import google.generativeai as genai
-import threading
 from wcwidth import wcswidth
 from dotenv import load_dotenv
 from selenium import webdriver
