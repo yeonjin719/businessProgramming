@@ -1,15 +1,17 @@
 import re, time, ast, os, platform, subprocess, threading
+
 import google.generativeai as genai
 from wcwidth import wcswidth
 from dotenv import load_dotenv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
+
 
 # pip install -r requirements.txt 를 통해 쉽게 라이브러리를 설치할 수 있습니다.
 # 파이썬 버전 3.12.7 버전 이상에서 개발 되었으므로, 해당 버전 이상에서 실행해주세요.
@@ -282,8 +284,8 @@ def moveToPrepareToSendEmail(id, content):
     print('📬 메일 초안 작성을 완료하였습니다. 크롬 창을 확인해주세요.')
     bringWindowToFront("Chrome")
 
-
-def close_alert_after_delay(driver, delay=10):
+# 알림창을 10초 후에 닫는 함수
+def closeAfterDelay(driver, delay=10):
     time.sleep(delay)
     try:
         alert = Alert(driver)
@@ -367,7 +369,7 @@ if (len(rows) != 0):
     print(f"{bar}  [{k}] {summary}\n")
   if (os_name != 'Darwin'):
     driver.execute_script("alert('메일 요약 분석이 완료되었습니다! 확인버튼을 누르고 vscode를 확인해주세요!');")
-    threading.Thread(target=close_alert_after_delay, args=(driver, 10), daemon=True).start()
+    threading.Thread(target=closeAfterDelay, args=(driver, 10), daemon=True).start()
   bringWindowToFront("Visual Studio Code")
   
   while True:
